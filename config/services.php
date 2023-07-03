@@ -30,5 +30,14 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'otp'=>[
+        'interface'=>env('OTP_INTERFACE','email'), //phone or email
+        'length'=>env('OTP_LENGTH',6),
+        'token_length'=>env('OTP_TOKEN_LENGTH',10),
+        'expiry'=>env('OTP_EXPIRY',5),
+        'custom_number'=>env('OTP_CUSTOM_NUMBER'),
+        'attempts'=>env('OTP_ATTEMPTS',3),
+
+    ],
 
 ];
