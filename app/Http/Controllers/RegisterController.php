@@ -6,6 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Interfaces\OtpInterface;
+use App\Models\Otp;
 use App\Services\GeneralServices;
 
 class RegisterController extends Controller
@@ -41,6 +42,7 @@ class RegisterController extends Controller
             ], $otp_response['status']);
         } catch (\Exception $e) {
             $user->delete();
+            Otp::where('user_id', $user->id)->where('type', $type)->delete();
             return response()->json([
                 'Success' => false,
                 'Message' => $e->getMessage(),
