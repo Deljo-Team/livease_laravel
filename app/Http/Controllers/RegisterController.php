@@ -15,28 +15,39 @@ class RegisterController extends Controller
      */
     public function index(RegisterRequest $request, OtpInterface $otp)
     {
-        $user = User::create($request->all());
-        //send otp to verify email
-        $type = 'register';
-        $service = new GeneralServices();
-        $otp_response = $otp->sendOtp($user,$service->generateUniqueOTP(),$type);
-        if(!$otp_response['success']){
-            // remove the user from database
-            $user->delete();
+
+        try {
+            $user = User::create($request->all());
+            //send otp to verify email
+
+            $type = 'register';
+            $service = new GeneralServices();
+            $otp_response = $otp->sendOtp($user, $service->generateUniqueOTP(), $type);
+            if (!$otp_response['success']) {
+                // remove the user from database
+                $user->delete();
+                return response()->json([
+                    'Success' => $otp_response['success'],
+                    'Message' => $otp_response['message'],
+                    'Title'   => $otp_response['title'],
+                    'Data' => ['token' => $otp_response['token']],
+                ], $otp_response['status']);
+            }
             return response()->json([
                 'Success' => $otp_response['success'],
                 'Message' => $otp_response['message'],
                 'Title'   => $otp_response['title'],
                 'Data' => ['token' => $otp_response['token']],
             ], $otp_response['status']);
+        } catch (\Exception $e) {
+            $user->delete();
+            return response()->json([
+                'Success' => false,
+                'Message' => $e->getMessage(),
+                'Title'   => 'Error',
+                'Data' => [],
+            ], 500);
         }
-        return response()->json([
-            'Success' => $otp_response['success'],
-            'Message' => $otp_response['message'],
-            'Title'   => $otp_response['title'],
-            'Data' => ['token' => $otp_response['token']],
-        ], $otp_response['status']);
-        
     }
 
     /**
