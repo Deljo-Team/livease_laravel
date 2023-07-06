@@ -37,15 +37,6 @@ class EmailOtpAdapter implements OtpInterface
       ];
     }
     Mail::to($user->email)->send(new OtpMail($otp,$type));
-    if( count(Mail::failures()) > 0 ) {
-      return [
-        'success' => false,
-        'message' => 'OTP sending failed',
-        'title' => 'Error',
-        'token' => '',
-        'status' => 424
-      ];
-    }
     return [
       'success' => true,
       'message' => 'OTP sent successfully',
