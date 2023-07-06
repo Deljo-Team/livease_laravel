@@ -29,7 +29,8 @@ class EmailOtpAdapter implements OtpInterface
     if (!$otp_response) {
       //send the email
       return [
-        'success' => 0,
+        'success' => false,
+        'title' => 'Error',
         'message' => 'OTP not sent',
         'token' => '',
         'status' => 500
@@ -37,8 +38,9 @@ class EmailOtpAdapter implements OtpInterface
     }
     Mail::to($user->email)->send(new OtpMail($otp,$type));
     return [
-      'success' => 1,
+      'success' => true,
       'message' => 'OTP sent successfully',
+      'title' => 'Success',
       'token' => $token,
       'status' => 200
     ];
@@ -48,28 +50,32 @@ class EmailOtpAdapter implements OtpInterface
     $otpData = Otp::where('token', $token)->first();
         if (! $otpData ) {
             return [
-                'success' => 0,
+                'success' => false,
+                'title' => 'Error',
                 'message' => 'The provided credentials are incorrect.',
                 'status' => 401
             ];
         }
         if($otpData->is_used){
           return [
-              'success' => 0,
+              'success' => false,
+              'title' => 'Error',
               'message' => 'OTP Already Used',
               'status'  => 401
           ];
       }
         if($otpData->expires_at < now()){
             return [
-                'success' => 0,
+                'success' => false,
+                'title' => 'Error',
                 'message' => 'OTP Expired',
                 'status'  => 401
             ];
         }
         if($otpData->otp != $otp){
             return [
-                'success' => 0,
+                'success' => false,
+                'title' => 'Error',
                 'message' => 'OTP not matched',
                 'status' => 401
             ];
@@ -82,42 +88,49 @@ class EmailOtpAdapter implements OtpInterface
             $user->save();
         }
         return [
-            'success' => 1,
+            'success' => true,
             'message' => 'OTP Verified',
+            'title' => 'Success',
             'status' => 200
         ];
   }
   function resendOtp($user,$type)
   {
-    $status = 1;
+    $status = true;
     $otp = Otp::where('user_id', $user->id)->where('type',$type)->first();
     if(!$otp){
       $message = 'OTP not found';
-      $status = 0;
+      $status = false;
+      $title = 'Error';
       return [
         'success' => $status,
         'message' => $message,
+        'title' => $title,
         'token' => '',
         'status' => 200
       ];
     }
     if($otp->attempts > config('services.otp.attempts')){
       $message = 'OTP attempts exceeded';
-      $status = 0;
+      $status = false;
+      $title = 'Error';
     }
     if (now() > $otp->expires_at ) {
       $otp->delete();
       $message = 'OTP expired';
-      $status = 0;
+      $status = false;
+      $title = 'Error';
     }
     if($otp->is_used){
       $message = 'OTP already used';
-      $status = 0;
+      $status = false;
+      $title = 'Error';
     }
-    if($status == 0){
+    if($status == false){
       return [
         'success' => $status,
         'message' => $message,
+        'title' => $title,
         'token' => '',
         'status' => 200
       ];
@@ -126,8 +139,9 @@ class EmailOtpAdapter implements OtpInterface
     $otp->save();
     Mail::to($user->email)->send(new OtpMail($otp->otp,$type));
     return [
-      'success' => 1,
+      'success' => true,
       'message' => 'OTP sent successfully',
+      'title' => 'Success',
       'token' => $otp->token,
       'status' => 200
     ];

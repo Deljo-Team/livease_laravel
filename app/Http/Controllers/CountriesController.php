@@ -12,7 +12,12 @@ class CountriesController extends Controller
      */
     public function index()
     {
-        return Countries::all();
+        $countries = Countries::all();
+        return response()->json([
+            'Success' => true,
+            'message' => 'Countries List',
+            'data' => ['countries'=>$countries]
+        ], 200);
     }
 
     /**

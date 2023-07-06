@@ -21,9 +21,10 @@ class RegisterController extends Controller
         $service = new GeneralServices();
         $otp_response = $otp->sendOtp($user,$service->generateUniqueOTP(),$type);
         return response()->json([
-            'success' => $otp_response['success'],
-            'message' => $otp_response['message'],
-            'token' => $otp_response['token'],
+            'Success' => $otp_response['success'],
+            'Message' => $otp_response['message'],
+            'Title'   => $otp_response['title'],
+            'Data' => ['token' => $otp_response['token']],
         ], $otp_response['status']);
         
     }

@@ -20,26 +20,29 @@ class OtpController extends Controller
         $user = User::where($otp_interface, $request->$otp_interface)->first();
         if (! $user) {
             return response()->json([
-                'success' => 0,
-                'message' => 'The provided credentials are incorrect.',
+                'Success' => false,
+                'Message' => 'The provided credentials are incorrect.',
+                'Title' => 'Error'
             ], 401);
         }
         $resend = $request->resend;
         if($resend){
             $otp_response = $otp->resendOtp($user,$type);
             return response()->json([
-                'success' => $otp_response['success'],
-                'message' => $otp_response['message'],
-                'token' => $otp_response['token'],
+                'Success' => $otp_response['success'],
+                'Message' => $otp_response['message'],
+                'Title' => $otp_response['title'],
+                'Data' => ['token' => $otp_response['token']],
             ], $otp_response['status']);
         }
       
         $service = new GeneralServices();
         $otp_response = $otp->sendOtp($user, $service->generateUniqueOTP(), $type);
         return response()->json([
-            'success' => $otp_response['success'],
-            'message' => $otp_response['message'],
-            'token' => $otp_response['token'],
+            'Success' => $otp_response['success'],
+            'Message' => $otp_response['message'],
+            'Title' => $otp_response['title'],
+            'Data' => ['token' => $otp_response['token']],
         ], $otp_response['status']);
     }
 
@@ -54,8 +57,9 @@ class OtpController extends Controller
             $user->createToken($request->device_name)->plainTextToken;
         }
         return response()->json([
-            'success' => $otp_response['success'],
-            'message' => $otp_response['message'],
+            'Success' => $otp_response['success'],
+            'Message' => $otp_response['message'],
+            'Title' => $otp_response['title'],
         ], $otp_response['status']);
     }
 }
