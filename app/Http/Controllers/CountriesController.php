@@ -15,8 +15,9 @@ class CountriesController extends Controller
         $countries = Countries::all();
         return response()->json([
             'Success' => true,
-            'message' => 'Countries List',
-            'data' => ['countries'=>$countries]
+            'Message' => 'Countries List',
+            'Title' => 'Success',
+            'Data' => ['countries'=>$countries]
         ], 200);
     }
 
