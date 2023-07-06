@@ -20,6 +20,16 @@ class RegisterController extends Controller
         $type = 'register';
         $service = new GeneralServices();
         $otp_response = $otp->sendOtp($user,$service->generateUniqueOTP(),$type);
+        if(!$otp_response['success']){
+            // remove the user from database
+            $user->delete();
+            return response()->json([
+                'Success' => $otp_response['success'],
+                'Message' => $otp_response['message'],
+                'Title'   => $otp_response['title'],
+                'Data' => ['token' => $otp_response['token']],
+            ], $otp_response['status']);
+        }
         return response()->json([
             'Success' => $otp_response['success'],
             'Message' => $otp_response['message'],
