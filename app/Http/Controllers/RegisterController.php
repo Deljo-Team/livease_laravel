@@ -42,7 +42,6 @@ class RegisterController extends Controller
             ], $otp_response['status']);
         } catch (\Exception $e) {
             $user->delete();
-            Otp::where('user_id', $user->id)->where('type', $type)->delete();
             return response()->json([
                 'Success' => false,
                 'Message' => $e->getMessage(),
