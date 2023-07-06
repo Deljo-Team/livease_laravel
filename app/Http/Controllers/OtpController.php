@@ -52,14 +52,16 @@ class OtpController extends Controller
         $otp = $request->otp;
         $type = $request->type;
         $otp_response = $otpService->verifyOtp($token,$otp,$type);
-        if($otp_response['success'] && $type == 'register'){
-            $user = User::where('id',$otp_response['user_id'])->first();
-            $user->createToken($request->device_name)->plainTextToken;
-        }
-        return response()->json([
+       $response_array =  [
             'Success' => $otp_response['success'],
             'Message' => $otp_response['message'],
             'Title' => $otp_response['title'],
-        ], $otp_response['status']);
+       ];
+        if($otp_response['success'] && $type == 'register'){
+            $user = User::where('id',$otp_response['user_id'])->first();
+            $token = $user->createToken($request->device_name)->plainTextToken;
+            $response_array['Data'] = ['token' => $token];
+        }
+        return response()->json($response_array, $otp_response['status']);
     }
 }

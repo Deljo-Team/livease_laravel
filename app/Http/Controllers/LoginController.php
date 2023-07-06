@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Interfaces\OtpInterface;
 use App\Models\User;
 use App\Services\GeneralServices;
@@ -73,5 +74,18 @@ class LoginController extends Controller
             'data' => ['token' => $otp_response['token']],
 
         ], $otp_response['status']);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $user_id = $request->user()->id;
+        $user = User::where('id',$user_id)->first();
+        $user->password = Hash::make($request->password);
+        $user->save();
+        return response()->json([
+            'Success' => true,
+            'Message' => 'Password Reset Successful',
+            'Title' => 'Success'
+        ], 200);
     }
 }

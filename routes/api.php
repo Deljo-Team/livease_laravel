@@ -24,13 +24,14 @@ use App\Http\Controllers\RegisterController;
 Route::post('/login', [LoginController::class, 'index']);
 Route::post('/send-otp',[OtpController::class, 'sendOtp']);
 Route::post('/verify-otp',[OtpController::class, 'verifyOtp']);
+Route::get('/countries', [CountriesController::class, 'index']);
+Route::post('/register', [RegisterController::class, 'index']);
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::post('/register', [RegisterController::class, 'index']);
+    Route::post('/reset-password', [LoginController::class, 'resetPassword']);
     Route::get('/logout', [LoginController::class, 'logout']);
-    Route::get('/countries', [CountriesController::class, 'index']);
 });

@@ -25,13 +25,16 @@ class OtpRequest extends ApiRequest
             return [
                 'email' => 'required|email',
                 'resend' => 'required|boolean',
-                'type' => 'required|string'
+                'type' => 'required|string',
+                'device_name' => 'required|string'
             ];
         }elseif(config('services.otp.interface') == 'phone'){
             return [
                 'phone' => 'required|numeric',
                 'resend' => 'required|boolean',
-                'type' => 'required|string'
+                'type' => 'required|string',
+                'device_name' => 'required|string'
+
             ];
         }
         

@@ -3,15 +3,16 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Spatie\FlareClient\Api;
 
-class RegisterRequest extends FormRequest
+class ResetPasswordRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user() ? true : false;
     }
 
     /**
@@ -22,13 +23,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
-            'email' => 'required|unique:users,email',
-            'country' => 'required',
-            'latitude' => 'required',
-            'longitude' => 'required',
-            
+            // 'old_password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required|string|min:8',
         ];
     }
 }

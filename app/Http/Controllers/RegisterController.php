@@ -15,9 +15,9 @@ class RegisterController extends Controller
      */
     public function index(RegisterRequest $request, OtpInterface $otp)
     {
-        $user = User::create($request->validated());
+        $user = User::create($request->all());
         //send otp to verify email
-        $type = $request->type;
+        $type = 'register';
         $service = new GeneralServices();
         $otp_response = $otp->sendOtp($user,$service->generateUniqueOTP(),$type);
         return response()->json([

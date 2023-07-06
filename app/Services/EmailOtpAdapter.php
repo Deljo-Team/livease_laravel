@@ -89,6 +89,7 @@ class EmailOtpAdapter implements OtpInterface
         }
         return [
             'success' => true,
+            'user_id' => $user->id,
             'message' => 'OTP Verified',
             'title' => 'Success',
             'status' => 200
