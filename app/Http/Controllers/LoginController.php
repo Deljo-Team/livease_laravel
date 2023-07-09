@@ -22,13 +22,13 @@ class LoginController extends Controller
         if (! $user || ! Hash::check($request->password, $user->password)) {
             return response()->json([
                 'Success' => false,
-                'message' => 'The provided credentials are incorrect.',
+                'Message' => 'The provided credentials are incorrect.',
             ], 401);
         }
         return response()->json([
             'Success' => true,
-            'message' => 'Login Successful',
-            'data' => [
+            'Message' => 'Login Successful',
+            'Data' => [
                 'token' => $user->createToken($request->device_name)->plainTextToken,
                 'user' => $user
             ]
@@ -41,7 +41,7 @@ class LoginController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json([
             'Success' => true,
-            'message' => 'Logout Successful',
+            'Message' => 'Logout Successful',
         ], 200);
     }
     
@@ -53,7 +53,7 @@ class LoginController extends Controller
         if (! $user) {
             return response()->json([
                 'Success' => false,
-                'message' => 'The provided credentials are incorrect.',
+                'Message' => 'The provided credentials are incorrect.',
             ], 401);
         }
         $resend = $request->resend;
@@ -61,8 +61,8 @@ class LoginController extends Controller
             $otp_response = $otp->resendOtp($user,$type);
             return response()->json([
                 'success' => $otp_response['success'],
-                'message' => $otp_response['message'],
-                'data' => ['token' => $otp_response['token']],
+                'Message' => $otp_response['message'],
+                'Data' => ['token' => $otp_response['token']],
             ], $otp_response['status']);
         }
       
@@ -70,8 +70,8 @@ class LoginController extends Controller
         $otp_response = $otp->sendOtp($user, $service->generateUniqueOTP(), $type);
         return response()->json([
             'success' => $otp_response['success'],
-            'message' => $otp_response['message'],
-            'data' => ['token' => $otp_response['token']],
+            'Message' => $otp_response['message'],
+            'Data' => ['token' => $otp_response['token']],
 
         ], $otp_response['status']);
     }
