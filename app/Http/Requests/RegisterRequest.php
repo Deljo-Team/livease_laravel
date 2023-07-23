@@ -21,14 +21,19 @@ class RegisterRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules =[
             'title' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'email' => 'required|unique:users,email',
             'country' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            
         ];
+        if(request()->type == 'vendor')
+        {
+            $rules['vendor_company_id'] = 'required|exists:vendor_companies,id';
+        }
+        return $rules;
+
     }
 }

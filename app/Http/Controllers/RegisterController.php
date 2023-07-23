@@ -3,14 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\VendorCategoryRegisterRequest;
+use App\Http\Requests\VendorCompanyAddressRegisterRequest;
+use App\Http\Requests\VendorCompanyDetailsRegisterRequest;
+use App\Http\Requests\VendorCompanyLogoRegisterRequest;
+use App\Http\Requests\VendorCompanySignatureRegisterRequest;
+use App\Interfaces\FileStorageInterface;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Interfaces\OtpInterface;
 use App\Models\Otp;
+use App\Models\VendorCompany;
 use App\Services\GeneralServices;
 
 class RegisterController extends Controller
 {
+    protected $storage_path;
+    public function __construct()
+    {
+        $this->middleware('guest');
+        $this->storage_path = 'vendor/company/';
+    }
     /**
      * Display a listing of the resource.
      */
@@ -18,9 +31,13 @@ class RegisterController extends Controller
     {
 
         try {
-            $user = User::create($request->all());
+            $user = User::create($request->except('vendor_company_id'));
             //send otp to verify email
-
+            if($request->type == 'vendor')
+            {
+                $vendor = VendorCompany::find($request->vendor_company_id);
+                $vendor->update(['user_id' => $user->id]);
+            }
             $type = 'register';
             $service = new GeneralServices();
             $otp_response = $otp->sendOtp($user, $service->generateUniqueOTP(), $type);
@@ -51,35 +68,70 @@ class RegisterController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function vendorCategory(VendorCategoryRegisterRequest $request)
     {
-        //
+        $vendorCompany = VendorCompany::create($request->all());
+        $vendor_company_id = $vendorCompany->id;
+        
+        return response()->json([
+            'Success' => true,
+            'Message' => 'Vendor Category Registered Successfully',
+            'Title'   => 'Success',
+            'Data' => ['vendor_company_id' => $vendor_company_id],
+        ], 200);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
+    public function vendorCompanyAddress(VendorCompanyAddressRegisterRequest $request) {
+        $vendor_company_id = $request->vendor_company_id;
+        $vendorCompany = VendorCompany::find($vendor_company_id);
+        $vendorCompany->update($request->except(['vendor_company_id']));
+        return response()->json([
+            'Success' => true,
+            'Message' => 'Vendor Company Details Registered Successfully',
+            'Title'   => 'Success',
+            'Data' => ['vendor_company_id' => $vendor_company_id],
+        ], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
+    public function vendorCompanyDetails(VendorCompanyDetailsRegisterRequest $request) {
+        $vendor_company_id = $request->vendor_company_id;
+        $vendorCompany = VendorCompany::find($vendor_company_id);
+        $vendorCompany->update($request->safe()->except(['vendor_company_id']));
+        return response()->json([
+            'Success' => true,
+            'Message' => 'Vendor Company Details Registered Successfully',
+            'Title'   => 'Success',
+            'Data' => ['vendor_company_id' => $vendor_company_id],
+        ], 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(User $user)
+    public function vendorCompanyLogo(VendorCompanyLogoRegisterRequest $request,FileStorageInterface $storage)
     {
-        //
+        $vendor_company_id = $request->vendor_company_id;
+        $vendorCompany = VendorCompany::find($vendor_company_id);
+        $logoPath = $storage->saveFile($request->file('logo'), $this->storage_path.$vendor_company_id,'logo.'.$request->file('logo')->extension());
+        $vendorCompany->update(['logo' => $logoPath]);
+        return response()->json([
+            'Success' => true,
+            'Message' => 'Vendor Company Logo Uploaded Successfully',
+            'Title'   => 'Success',
+            'Data' => ['vendor_company_id' => $vendor_company_id, 'logo' => $logoPath],
+        ], 200);
+    }
+    public function vendorCompanySignature(VendorCompanySignatureRegisterRequest $request,FileStorageInterface $storage)
+    {
+        $vendor_company_id = $request->vendor_company_id;
+        $vendorCompany = VendorCompany::find($vendor_company_id);
+        // $signaturePath = $storage->saveFile($request->file('signature'), $this->storage_path.$vendor_company_id,);
+        $signaturePath = $storage->saveFile($request->file('signature'), $this->storage_path.$vendor_company_id,'signature.'.$request->file('signature')->extension());
+        $signatureUrl = config('app.url').$storage->getFileUrl($signaturePath);
+        $vendorCompany->update(['signature' => $signaturePath,'signature' => $signaturePath]);
+
+        return response()->json([
+            'Success' => true,
+            'Message' => 'Vendor Company Signature Uploaded Successfully',
+            'Title'   => 'Success',
+            'Data' => ['vendor_company_id' => $vendor_company_id,'signature' => $signatureUrl],
+        ], 200);
     }
 }

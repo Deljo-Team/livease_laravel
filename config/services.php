@@ -39,5 +39,10 @@ return [
         'attempts'=>env('OTP_ATTEMPTS',3),
 
     ],
+    'file'=>[
+        'interface'=>env('FILE_INTERFACE','file'), //file or s3
+        'path'=>env('FILE_PATH','public'),
+        'disk'=>env('FILE_DISK','local'),
+    ]
 
 ];
