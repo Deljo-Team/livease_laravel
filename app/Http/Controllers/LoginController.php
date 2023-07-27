@@ -68,6 +68,10 @@ class LoginController extends Controller
       
         $service = new GeneralServices();
         $otp_response = $otp->sendOtp($user, $service->generateUniqueOTP(), $type);
+        $data = ['token' => $otp_response['token']];
+        if($otp_response['success'] && config('services.otp.debug')){
+            $data['otp'] = $otp_response['otp'];
+        }
         return response()->json([
             'success' => $otp_response['success'],
             'Message' => $otp_response['message'],

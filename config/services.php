@@ -37,6 +37,7 @@ return [
         'expiry'=>env('OTP_EXPIRY',5),
         'custom_number'=>env('OTP_CUSTOM_NUMBER'),
         'attempts'=>env('OTP_ATTEMPTS',3),
+        'debug'=>env('OTP_DEBUG',false),
 
     ],
     'file'=>[
