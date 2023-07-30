@@ -45,10 +45,6 @@ class RegisterController extends Controller
                 // remove the user from database
                 $user->delete();
                 $data = ['token' => $otp_response['token']];
-                if(config('services.otp.debug'))
-                {
-                    $data['otp'] = $otp_response['otp'];
-                }
                 return response()->json([
                     'Success' => $otp_response['success'],
                     'Message' => $otp_response['message'],
@@ -56,11 +52,17 @@ class RegisterController extends Controller
                     'Data' => $data,
                 ], $otp_response['status']);
             }
+            $data = ['token' => $otp_response['token']];
+                
+            if(config('services.otp.debug'))
+            {
+                $data['otp'] = $otp_response['otp'];
+            }
             return response()->json([
                 'Success' => $otp_response['success'],
                 'Message' => $otp_response['message'],
                 'Title'   => $otp_response['title'],
-                'Data' => ['token' => $otp_response['token']],
+                'Data' => $data,
             ], $otp_response['status']);
         } catch (\Exception $e) {
             $user->delete();

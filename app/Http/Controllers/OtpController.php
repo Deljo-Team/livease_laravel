@@ -28,21 +28,30 @@ class OtpController extends Controller
         $resend = $request->resend;
         if($resend){
             $otp_response = $otp->resendOtp($user,$type);
+            $data = ['token' => $otp_response['token']];
+            if(config('services.otp.debug'))
+            {
+                $data['otp'] = $otp_response['otp'];
+            }
             return response()->json([
                 'Success' => $otp_response['success'],
                 'Message' => $otp_response['message'],
                 'Title' => $otp_response['title'],
-                'Data' => ['token' => $otp_response['token']],
+                'Data' => $data,
             ], $otp_response['status']);
         }
       
         $service = new GeneralServices();
         $otp_response = $otp->sendOtp($user, $service->generateUniqueOTP(), $type);
+        $data = ['token' => $otp_response['token']];
+        if($otp_response['success'] && config('services.otp.debug')){
+            $data['otp'] = $otp_response['otp'];
+        }
         return response()->json([
             'Success' => $otp_response['success'],
             'Message' => $otp_response['message'],
             'Title' => $otp_response['title'],
-            'Data' => ['token' => $otp_response['token']],
+            'Data' => $data,
         ], $otp_response['status']);
     }
 
