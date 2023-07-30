@@ -144,12 +144,17 @@ class EmailOtpAdapter implements OtpInterface
     $otp->attempts = $otp->attempts + 1;
     $otp->save();
     Mail::to($user->email)->send(new OtpMail($otp->otp,$type));
-    return [
+    $return_data = [
       'success' => true,
       'message' => 'OTP sent successfully',
       'title' => 'Success',
       'token' => $otp->token,
       'status' => 200
     ];
+    if(config('services.otp.debug'))
+    {
+      $return_data['otp'] = $otp->otp;
+    }
+    return $return_data;
   }
 }

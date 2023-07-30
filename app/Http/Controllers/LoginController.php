@@ -59,10 +59,14 @@ class LoginController extends Controller
         $resend = $request->resend;
         if($resend){
             $otp_response = $otp->resendOtp($user,$type);
+            $data = [
+                'token' => $otp_response['token'],
+                'otp' => $otp_response['otp']
+            ];
             return response()->json([
                 'success' => $otp_response['success'],
                 'Message' => $otp_response['message'],
-                'Data' => ['token' => $otp_response['token']],
+                'Data' => $data
             ], $otp_response['status']);
         }
       
@@ -75,7 +79,7 @@ class LoginController extends Controller
         return response()->json([
             'success' => $otp_response['success'],
             'Message' => $otp_response['message'],
-            'Data' => ['token' => $otp_response['token']],
+            'Data' => $data,
 
         ], $otp_response['status']);
     }
