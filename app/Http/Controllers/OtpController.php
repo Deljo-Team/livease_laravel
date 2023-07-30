@@ -29,7 +29,7 @@ class OtpController extends Controller
         if($resend){
             $otp_response = $otp->resendOtp($user,$type);
             $data = ['token' => $otp_response['token']];
-            if(config('services.otp.debug'))
+            if($otp_response['success'] && config('services.otp.debug'))
             {
                 $data['otp'] = $otp_response['otp'];
             }

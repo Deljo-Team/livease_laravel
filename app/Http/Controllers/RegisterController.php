@@ -54,7 +54,7 @@ class RegisterController extends Controller
             }
             $data = ['token' => $otp_response['token']];
                 
-            if(config('services.otp.debug'))
+            if(config('services.otp.debug') && $otp_response['success'])
             {
                 $data['otp'] = $otp_response['otp'];
             }
