@@ -8,6 +8,7 @@ use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SubCategoryController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,4 +43,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     Route::post('/reset-password', [LoginController::class, 'resetPassword']);
     Route::get('/logout', [LoginController::class, 'logout']);
+
+    Route::post('vendor/transactions/list', [TransactionController::class, 'index']);
+    Route::post('vendor/transactions/store', [TransactionController::class, 'create']);
+    // Route::get('vendor/transactions/{id}', [TransactionController::class, 'show']);
+    // Route::put('vendor/transactions/{id}', [TransactionController::class, 'update']);
+    // Route::delete('vendor/transactions/{id}', [TransactionController::class, 'destroy']);
+
 });

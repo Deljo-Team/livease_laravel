@@ -54,4 +54,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the vendor company associated with the user.
+     */
+    public function vendor_company()
+    {
+        return $this->belongsTo(VendorCompany::class);
+    }
 }
