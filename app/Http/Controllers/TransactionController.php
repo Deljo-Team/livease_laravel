@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TransactionDeleteRequest;
 use App\Http\Requests\TransactionRequest;
 use App\Models\Transaction;
 use App\Models\VendorCompany;
@@ -95,12 +96,43 @@ class TransactionController extends Controller
         }
     }
 
-    public function Test(){
-        return response()->json([
-            'Success' => true,
-            'Message' => 'Transaction created successfully',
-            'Title'   => 'Success',
-            'Data' => ['vendor_company_id' => $this->vendor_company_id, 'user_id' => $this->user_id]
-        ], 200);
+    public function destroy(TransactionDeleteRequest $request)
+    {
+        try {
+            $transaction = Transaction::where('id', $request->id)
+                ->where('vendor_company_id', $this->vendor_company_id)
+                ->where('user_id', $this->user_id)
+                ->first();
+            if ($transaction) {
+                $transaction->delete();
+                return response()->json([
+                    'Success' => true,
+                    'Message' => 'Transaction deleted successfully',
+                    'Title'   => 'Success',
+                    'Data' => $transaction,
+                ], 200);
+            } else {
+                return response()->json([
+                    'Success' => false,
+                    'Message' => 'Transaction not found',
+                    'Title'   => 'Error',
+                    'Data' => null,
+                ], 404);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => false,
+                'Message' => 'Transaction deletion failed',
+                'Title'   => 'Error',
+                'Data' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    // TODO: check if the transaction belongs to the vendor
+
+    Transaction
+
+
+        
     }
 }
