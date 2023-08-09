@@ -130,9 +130,8 @@ class TransactionController extends Controller
     }
     // TODO: check if the transaction belongs to the vendor
 
-    Transaction
 
 
         
-    }
+    
 }
