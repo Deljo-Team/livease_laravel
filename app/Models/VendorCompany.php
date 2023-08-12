@@ -25,4 +25,14 @@ class VendorCompany extends Model
         'is_admin_verified',
         'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function servicemen()
+    {
+        return $this->hasMany(Servicemen::class);
+    }
 }

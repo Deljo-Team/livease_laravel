@@ -60,6 +60,6 @@ class User extends Authenticatable
      */
     public function vendor_company()
     {
-        return $this->belongsTo(VendorCompany::class);
+        return $this->hasOne(VendorCompany::class);
     }
 }

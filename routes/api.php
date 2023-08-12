@@ -7,8 +7,10 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ServicemenController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TransactionController;
+use App\Models\Service;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +50,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('vendor/transactions/store', [TransactionController::class, 'create']);
     // Route::get('vendor/transactions/{id}', [TransactionController::class, 'show']);
     // Route::put('vendor/transactions/{id}', [TransactionController::class, 'update']);
-    // Route::delete('vendor/transactions/{id}', [TransactionController::class, 'destroy']);
+    Route::delete('vendor/transactions/{id}', [TransactionController::class, 'destroy']);
+
+    Route::post('servicemen',[ServicemenController::class, 'index']);
+    Route::post('servicemen/create',[ServicemenController::class, 'store']);
+    Route::post('servicemen/edit',[ServicemenController::class, 'update']);
+    Route::delete('servicemen/{id}', [ServicemenController::class, 'destroy']);
 
 });
