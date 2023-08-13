@@ -11,18 +11,11 @@ use Illuminate\Http\Request;
 
 class ServicemenController extends Controller
 {
-    protected $user, $vendor_company;
-    public function __construct()
-    {
-        $this->user = auth('sanctum')->user();
-        $vendor_company = $this->user->vendor_company;
-        
-        
-    }
     public function index(Request $request)
     {
-        $service_man = Servicemen::where('vendor_company_id', $this->user->vendor_company->id)->get();
-        $service_man = $this->user->vendor_company->servicemen;
+        $user = auth('sanctum')->user();
+        $service_man = Servicemen::where('vendor_company_id', $user->vendor_company->id)->get();
+        $service_man = $user->vendor_company->servicemen;
         return response()->json([
             'Success' => true,
             'Message' => 'Service Men list fetched successfully',
@@ -64,6 +57,8 @@ class ServicemenController extends Controller
     public function destroy($id)
     {
         // TODO::check if servicemen is assigned to any job
+        $user = auth('sanctum')->user();
+
         if(!$id){
             return response()->json([
                 'Success' => false,
@@ -73,7 +68,7 @@ class ServicemenController extends Controller
             ],200);
         }
         $service_man = Servicemen::where('id', $id)->first();
-        if($service_man->vendor_company_id == $this->user->vendor_company->id){
+        if($service_man->vendor_company_id == $user->vendor_company->id){
             //delete the servicemen
             $service_man->delete();
             return response()->json([
