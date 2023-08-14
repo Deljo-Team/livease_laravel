@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ServiceMenCreateRequest extends ApiRequest
+class ServiceMenDeleteRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,7 @@ class ServiceMenCreateRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'phone' => 'required',
-            'category' => 'required|string',
-            'sub_category' => 'required|string',
-            'id_proof' => 'required',
+            //
         ];
     }
 }
