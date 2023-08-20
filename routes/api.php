@@ -44,7 +44,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
     Route::post('/reset-password', [LoginController::class, 'resetPassword']);
-    Route::get('/logout', [LoginController::class, 'logout']);
+    Route::get('/logout', [LoginController::class, 'logout'])->name('api.logout');
 
     Route::post('vendor/transactions/list', [TransactionController::class, 'index']);
     Route::post('vendor/transactions/store', [TransactionController::class, 'create']);

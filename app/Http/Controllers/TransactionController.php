@@ -11,21 +11,24 @@ use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-    protected $user_id, $vendor_company_id;
-    public function __construct(Request $request)
+    // protected $user_id, $vendor_company_id;
+    public function __construct()
     {
-        //get the vendor from Auth
-        $user = auth('sanctum')->user();
-       
-        $this->user_id = $user->id;
-        $vendor_company = VendorCompany::where('user_id', $this->user_id)->first();
-        $this->vendor_company_id = $vendor_company->id;
+        // //get the vendor from Auth
+        // $user = auth('sanctum')->user();
+        // $user_id = $user->id;
+        // $vendor_company = VendorCompany::where('user_id', $user_id)->first();
+        // $vendor_company_id = $vendor_company->id;
     }
     public function index(TransactionRequest $request)
     {
+        $user = auth('sanctum')->user();
+        $user_id = $user->id;
+        $vendor_company = VendorCompany::where('user_id', $user_id)->first();
+        $vendor_company_id = $vendor_company->id;
         //list the trasactions
-        $base_query = Transaction::where('vendor_company_id', $this->vendor_company_id)
-            ->where('user_id', $this->user_id)
+        $base_query = Transaction::where('vendor_company_id', $vendor_company_id)
+            ->where('user_id', $user_id)
             ->orderBy('created_at', 'desc');
         if($request->start_date){
             $base_query->whereDate('created_at', '>=', $request->start_date);
@@ -69,10 +72,14 @@ class TransactionController extends Controller
 
     public function create(TransactionRequest $request)
     {
+        $user = auth('sanctum')->user();
+        $user_id = $user->id;
+        $vendor_company = VendorCompany::where('user_id', $user_id)->first();
+        $vendor_company_id = $vendor_company->id;
         try {
             $transaction = new Transaction();
-            $transaction->vendor_company_id = $this->vendor_company_id;
-            $transaction->user_id = $this->user_id;
+            $transaction->vendor_company_id = $vendor_company_id;
+            $transaction->user_id = $user_id;
             $transaction->service_id = $request->service_id ?? NULL;
             $transaction->type = $request->type;
             $transaction->amount = $request->amount;
@@ -98,10 +105,14 @@ class TransactionController extends Controller
 
     public function destroy(TransactionDeleteRequest $request)
     {
+        $user = auth('sanctum')->user();
+        $user_id = $user->id;
+        $vendor_company = VendorCompany::where('user_id', $user_id)->first();
+        $vendor_company_id = $vendor_company->id;
         try {
             $transaction = Transaction::where('id', $request->id)
-                ->where('vendor_company_id', $this->vendor_company_id)
-                ->where('user_id', $this->user_id)
+                ->where('vendor_company_id', $vendor_company_id)
+                ->where('user_id', $user_id)
                 ->first();
             if ($transaction) {
                 $transaction->delete();

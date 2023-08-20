@@ -31,7 +31,7 @@ class User extends Authenticatable
         'avatar',
         'type',
         'remember_token',
-        
+
 
     ];
 
@@ -61,5 +61,15 @@ class User extends Authenticatable
     public function vendor_company()
     {
         return $this->hasOne(VendorCompany::class);
+    }
+
+    public function scopeCustomers($query)
+    {
+        return $query->where('type', 'customer');
+    }
+
+    public function scopeVendors($query)
+    {
+        return $query->where('type', 'vendor');
     }
 }

@@ -8,6 +8,7 @@ use App\Interfaces\OtpInterface;
 use App\Services\EmailOtpAdapter;
 use App\Services\FileStorageAdapter;
 use Illuminate\Support\ServiceProvider;
+use Yajra\DataTables\Html\Builder;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        Builder::useVite();
         $this->app->singleton(OtpInterface::class, function ($app) {
             switch ($app->make('config')->get('services.otp.interface')) {
                 case 'email':

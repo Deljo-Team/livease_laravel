@@ -1,25 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\DataTables\CountriesDataTable;
 use App\Models\Countries;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CountriesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(CountriesDataTable $dataTable)
     {
-        $countries = Countries::all();
-        return response()->json([
-            'Success' => true,
-            'Message' => 'Countries List',
-            'Title' => 'Success',
-            'Data' => ['countries'=>$countries]
-        ], 200);
+        return $dataTable->render('admin.pages.countries.index');
     }
 
     /**
