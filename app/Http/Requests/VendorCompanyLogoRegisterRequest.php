@@ -27,7 +27,8 @@ class VendorCompanyLogoRegisterRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'signature' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
 
         ];
     }

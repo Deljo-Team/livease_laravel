@@ -117,12 +117,16 @@ class RegisterController extends Controller
         $vendor_company_id = $request->vendor_company_id;
         $vendorCompany = VendorCompany::find($vendor_company_id);
         $logoPath = $storage->saveFile($request->file('logo'), $this->storage_path.$vendor_company_id,'logo.'.$request->file('logo')->extension());
-        $vendorCompany->update(['logo' => $logoPath]);
+        $signaturePath = $storage->saveFile($request->file('signature'), $this->storage_path.$vendor_company_id,'signature.'.$request->file('signature')->extension());
+        
+        $logoUrl = config('app.url').$storage->getFileUrl($logoPath);
+        $signatureUrl = config('app.url').$storage->getFileUrl($signaturePath);
+        $vendorCompany->update(['logo' => $logoPath,'signature' => $signaturePath]);
         return response()->json([
             'Success' => true,
-            'Message' => 'Vendor Company Logo Uploaded Successfully',
+            'Message' => 'Vendor Company Logo & Signature Uploaded Successfully',
             'Title'   => 'Success',
-            'Data' => ['vendor_company_id' => $vendor_company_id, 'logo' => $logoPath],
+            'Data' => ['vendor_company_id' => $vendor_company_id, 'logo' => $logoUrl, 'signature' => $signatureUrl],
         ], 200);
     }
     public function vendorCompanySignature(VendorCompanySignatureRegisterRequest $request,FileStorageInterface $storage)

@@ -27,10 +27,10 @@ class CountriesDataTable extends DataTable
             ->addColumn('action', function($row){
 
                 // Update Button
-                $updateButton = "<button class='btn btn-sm btn-info updateUser' data-id='".$row->id."' data-bs-toggle='modal' data-bs-target='#updateModal' ><i class='fa-solid fa-pen-to-square'></i></button>";
+                $updateButton = "<button class='btn btn-sm btn-info updateUser' data-id='".$row->id."' data-bs-toggle='modal' data-bs-target='#updateModal' ><span class='material-symbols-outlined'>edit</span></button>";
 
                 // Delete Button
-                $deleteButton = "<button class='btn btn-sm btn-danger deleteUser' data-id='".$row->id."'><i class='fa-solid fa-trash'></i></button>";
+                $deleteButton = "<button class='btn btn-sm btn-danger deleteUser' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
 
                 return $updateButton." ".$deleteButton;
 

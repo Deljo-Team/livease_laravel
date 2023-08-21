@@ -36,13 +36,10 @@ Route::post('/register/vendor/category', [RegisterController::class, 'vendorCate
 Route::post('/register/vendor/details', [RegisterController::class, 'vendorCompanyDetails']);
 Route::post('/register/vendor/address', [RegisterController::class, 'vendorCompanyAddress']);
 Route::post('/register/vendor/logo', [RegisterController::class, 'vendorCompanyLogo']);
-Route::post('/register/vendor/signature', [RegisterController::class, 'vendorCompanySignature']);
+// Route::post('/register/vendor/signature', [RegisterController::class, 'vendorCompanySignature']);
 Route::post('/register', [RegisterController::class, 'index']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
     Route::post('/reset-password', [LoginController::class, 'resetPassword']);
     Route::get('/logout', [LoginController::class, 'logout'])->name('api.logout');
 
