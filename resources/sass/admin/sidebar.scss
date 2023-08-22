@@ -1,10 +1,40 @@
 /* ---------------------------------------------------
-    OFFCANVAS ESSENTIALS
+    sidebar ESSENTIALS
 ----------------------------------------------------- */
-.offcanvas.offcanvas-start {
-  position: absolute;
+.sidebar{
+  background: #fff;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: $sidebar-width;
+  z-index: 999;
+  transition: all 0.3s ease;
+  .sidebar-header{
+    padding:10px 20px;
+  }
+  .sidebar-header .title{
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #000;
+  }
+  .sidebar-body{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    ul li.list-level-1 .btn-toggle{
+      width: 100%;
+    }
+    ul li.list-level-1 .btn-toggle.collapsed{
+      &:hover{
+        background: #f5f5f5;
+      }
+     
+    }
+
+  }
 }
+
 
 /* Desktop view */
 @media (min-width: 576px) {
@@ -17,7 +47,7 @@
     display: none;
   }
 
-  .offcanvas-backdrop {
+  .sidebar-backdrop {
     display: none;
   }
 }
@@ -165,7 +195,7 @@
 /* ---------------------------------------------------
       OPTIONAL NAVBAR HEADER THEME
   ----------------------------------------------------- */
-.offcanvas-header {
+.sidebar-header {
   background-color: #0d6efd !important;
   color: #fff !important;
   border-bottom: 1px solid #fff;

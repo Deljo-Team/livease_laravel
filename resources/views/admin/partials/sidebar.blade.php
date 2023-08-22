@@ -1,15 +1,15 @@
-<nav class="offcanvas offcanvas-start show" tabindex="-1" id="offcanvas" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true">
-    <div class="offcanvas-header border-bottom">
-      <a href="/" class="d-flex align-items-center text-decoration-none offcanvas-title d-sm-block">
+<nav class="sidebar sidebar-start show" tabindex="-1" id="sidebar" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true">
+    <div class="sidebar-header border-bottom">
+      <a href="/" class="d-flex align-items-center text-decoration-none sidebar-title d-sm-block">
         <h3>
           <i class="bi bi-chat-right-text-fill"></i>
           {{ config('app.name', 'Livease') }}
         </h3>
       </a>
     </div>
-    <div class="offcanvas-body px-0">
+    <div class="sidebar-body px-0">
       <ul class="list-unstyled ps-0">
-        <li class="mb-1">
+        <li class="mb-1 list-level-1">
           <button
             class="btn btn-toggle align-items-center rounded"
             data-bs-toggle="collapse"
@@ -19,14 +19,14 @@
             General
           </button>
           <div class="collapse show" id="home-collapse" style="">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small level-2">
               <li><a href="/countries" class="rounded">Countries</a></li>
               <li><a href="#" class="rounded">Categories</a></li>
               <li><a href="#" class="rounded">Reports</a></li>
             </ul>
           </div>
         </li>
-        <li class="mb-1">
+        <li class="mb-1 list-level-1">
           <button
             class="btn btn-toggle align-items-center rounded collapsed"
             data-bs-toggle="collapse"
@@ -36,7 +36,7 @@
             Vendor
           </button>
           <div class="collapse" id="dashboard-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small level-2">
               <li><a href="#" class="rounded">Approval</a></li>
               <li><a href="#" class="rounded">Weekly</a></li>
               <li><a href="#" class="rounded">Monthly</a></li>
@@ -44,7 +44,7 @@
             </ul>
           </div>
         </li>
-        <li class="mb-1">
+        <li class="mb-1 list-level-1">
           <button
             class="btn btn-toggle align-items-center rounded collapsed"
             data-bs-toggle="collapse"
@@ -63,7 +63,7 @@
           </div>
         </li>
         <li class="border-top my-3"></li>
-        <li class="mb-1">
+        <li class="mb-1 list-level-1">
           <button
             class="btn btn-toggle align-items-center rounded collapsed"
             data-bs-toggle="collapse"
