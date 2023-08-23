@@ -35,4 +35,14 @@ class VendorCompany extends Model
     {
         return $this->hasMany(Servicemen::class);
     }
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'vendor_company_categories')
+            ->withTimestamps();
+    }
+    public function sub_categories()
+    {
+        return $this->belongsToMany(SubCategory::class, 'vendor_company_sub_categories')
+            ->withTimestamps();
+    }
 }

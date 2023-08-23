@@ -37,7 +37,7 @@
           </button>
           <div class="collapse" id="dashboard-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small level-2">
-              <li><a href="#" class="rounded">Approval</a></li>
+              <li><a href="/vendor-approval" class="rounded">Approval</a></li>
               <li><a href="#" class="rounded">Weekly</a></li>
               <li><a href="#" class="rounded">Monthly</a></li>
               <li><a href="#" class="rounded">Annually</a></li>

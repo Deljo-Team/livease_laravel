@@ -1,0 +1,1 @@
+import './admin/vendor-approval.js'

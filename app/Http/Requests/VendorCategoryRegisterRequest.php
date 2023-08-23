@@ -22,8 +22,10 @@ class VendorCategoryRegisterRequest extends ApiRequest
     public function rules(): array
     {
         return [
-          'category_id' => 'required|exists:categories,id',
-          'sub_category_id' => 'required|exists:sub_categories,id',
+          'categories' => 'required|array|min:1',
+          'categories.*' => 'required|exists:categories,id',
+          'sub_categories' => 'required|array|min:1',
+          'sub_categories.*' => 'required|exists:sub_categories,id',
         ];
     }
 }

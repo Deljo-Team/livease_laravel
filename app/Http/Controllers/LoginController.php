@@ -25,6 +25,12 @@ class LoginController extends Controller
                 'Message' => 'The provided credentials are incorrect.',
             ], 401);
         }
+        if($user->type == 'vendor' && $user->vendor_company->is_admin_verified != 1 && $user->vendor_company->status != 1){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'Your account is not verified by admin.',
+            ], 401);
+        }
         return response()->json([
             'Success' => true,
             'Message' => 'Login Successful',

@@ -10,6 +10,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ServicemenController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\VendorController;
 use App\Models\Service;
 
 /*
@@ -42,6 +43,8 @@ Route::post('/register', [RegisterController::class, 'index']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/reset-password', [LoginController::class, 'resetPassword']);
     Route::get('/logout', [LoginController::class, 'logout'])->name('api.logout');
+
+    Route::post('vendor/profile', [VendorController::class, 'index']);
 
     Route::post('vendor/transactions/list', [TransactionController::class, 'index']);
     Route::post('vendor/transactions/store', [TransactionController::class, 'create']);

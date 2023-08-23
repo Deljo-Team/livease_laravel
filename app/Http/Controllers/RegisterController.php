@@ -77,9 +77,10 @@ class RegisterController extends Controller
 
     public function vendorCategory(VendorCategoryRegisterRequest $request)
     {
-        $vendorCompany = VendorCompany::create($request->all());
+        $vendorCompany = VendorCompany::create(['is_admin_verified'=>0,'status'=>0]);
         $vendor_company_id = $vendorCompany->id;
-        
+        $vendorCompany->categories()->attach($request->categories);
+        $vendorCompany->sub_categories()->attach($request->sub_categories);
         return response()->json([
             'Success' => true,
             'Message' => 'Vendor Category Registered Successfully',

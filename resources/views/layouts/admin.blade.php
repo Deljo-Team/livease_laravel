@@ -15,13 +15,18 @@
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" /> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.dataTables.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
-
+    <script>
+        window.base = {!! json_encode([
+            'baseUrl' => url('/'),
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
     <!-- Scripts -->
     @vite([
         'resources/sass/app.scss',
-         'resources/js/app.js',
+        'resources/js/app.js',
         ])
+
 </head>
 <body>
     <div id="app">
@@ -33,5 +38,6 @@
         </main>
     </div>
     @stack('scripts')
+    @vite('resources/js/admin.js')
 </body>
 </html>
