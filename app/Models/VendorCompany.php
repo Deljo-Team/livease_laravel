@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +26,18 @@ class VendorCompany extends Model
         'is_admin_verified',
         'status',
     ];
-
+    protected function logo(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => config('app.url') . '/storage/' . $value,
+        );
+    }
+    protected function signature(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => config('app.url') . '/storage/' . $value,
+        );
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

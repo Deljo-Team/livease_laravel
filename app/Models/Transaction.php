@@ -47,5 +47,19 @@ class Transaction extends Model
     //         ]);
     //     });
     // }
+
+    protected $fillable = [
+        'user_id',
+        'vendor_company_id',
+        'type',
+        'amount',
+        'status',
+        'remarks',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
 

@@ -103,7 +103,7 @@ class TransactionController extends Controller
         }
     }
 
-    public function destroy(TransactionDeleteRequest $request)
+    public function destroy(Request $request)
     {
         $user = auth('sanctum')->user();
         $user_id = $user->id;
