@@ -139,10 +139,4 @@ class TransactionController extends Controller
             ], 500);
         }
     }
-    // TODO: check if the transaction belongs to the vendor
-
-
-
-        
-    
 }
