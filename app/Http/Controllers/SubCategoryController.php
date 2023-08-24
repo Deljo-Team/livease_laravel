@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SubCategoryRequest;
+use App\Models\Category;
 use App\Models\SubCategory;
 
 class SubCategoryController extends Controller
@@ -12,10 +13,10 @@ class SubCategoryController extends Controller
      */
     public function index(SubCategoryRequest $request)
     {
-        $categories = SubCategory::where('category_id', $request->category_id)->get();
+        $categories = Category::select('id','name')->whereIn('id', $request->categories)->with('sub_categories')->get();
         return response()->json([
             'Success' => true,
-            'Message' => 'Category List',
+            'Message' => 'Sub Category List',
             'Title' => 'Success',
             'Data' => ['categories'=>$categories]
         ], 200);

@@ -12,7 +12,7 @@ class VendorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(VendorApprovalDataTable $dataTable)
+    public function approve(VendorApprovalDataTable $dataTable)
     {
         return $dataTable->render('admin.pages.vendor_approval.index');
     }

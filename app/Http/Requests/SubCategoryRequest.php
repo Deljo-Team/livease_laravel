@@ -22,7 +22,8 @@ class SubCategoryRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'category_id' => 'required|exists:categories,id',
+            'categories' => 'required|array',
+            'categories.*' => 'required|exists:categories,id',
         ];
     }
 }

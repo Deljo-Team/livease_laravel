@@ -18,7 +18,7 @@ class VendorController extends Controller
                 'Message' => 'User not found',
             ], 404);
         }
-        $vendor_company = VendorCompany::where('user_id', $user->id)->with('categories','sub_categories')->first();
+        $vendor_company = VendorCompany::where('user_id', $user->id)->with('categories.sub_categories')->first();
         if(!$vendor_company){
             return response()->json([
                 'Success' => false,
