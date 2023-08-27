@@ -9,7 +9,7 @@
     </div>
     <div class="sidebar-body px-0">
       <ul class="list-unstyled ps-0">
-        <li class="mb-1 list-level-1">
+        {{-- <li class="mb-1 list-level-1">
           <button
             class="btn btn-toggle align-items-center rounded"
             data-bs-toggle="collapse"
@@ -25,24 +25,24 @@
               <li><a href="#" class="rounded">Reports</a></li>
             </ul>
           </div>
-        </li>
+        </li> --}}
         <li class="mb-1 list-level-1">
           <button
-            class="btn btn-toggle align-items-center rounded collapsed"
+            class="btn btn-toggle align-items-center rounded "
             data-bs-toggle="collapse"
             data-bs-target="#dashboard-collapse"
             aria-expanded="false"
           >
             Vendor
           </button>
-          <div class="collapse" id="dashboard-collapse">
+          <div class="collapse show" id="dashboard-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small level-2">
               <li><a href="{{route('vendor.list')}}" class="rounded">List</a></li>
               <li><a href="{{route('vendor.approve')}}" class="rounded">Approval</a></li>
             </ul>
           </div>
         </li>
-        <li class="mb-1 list-level-1">
+        {{-- <li class="mb-1 list-level-1">
           <button
             class="btn btn-toggle align-items-center rounded collapsed"
             data-bs-toggle="collapse"
@@ -59,7 +59,7 @@
               <li><a href="#" class="rounded">Returned</a></li>
             </ul>
           </div>
-        </li>
+        </li> --}}
         <li class="border-top my-3"></li>
         <li class="mb-1 list-level-1">
           <button
@@ -72,7 +72,7 @@
           </button>
           <div class="collapse" id="account-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              <li><a href="#" class="rounded">Profile</a></li>
+              {{-- <li><a href="#" class="rounded">Profile</a></li> --}}
               {{-- <li><a href="#" class="rounded">Settings</a></li> --}}
               <li><a href="{{route('logout')}}" class="rounded" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">Log out</a></li>

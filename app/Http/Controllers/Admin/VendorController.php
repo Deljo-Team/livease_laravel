@@ -15,7 +15,7 @@ class VendorController extends Controller
      */
     public function index(VendorListDataTable $dataTable)
     {
-        return $dataTable->render('admin.pages.vendor_approval.index');
+        return $dataTable->render('admin.pages.vendor_approval.list');
     }
 
     /**
