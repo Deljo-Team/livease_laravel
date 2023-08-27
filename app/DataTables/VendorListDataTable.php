@@ -13,7 +13,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class VendorApprovalDataTable extends DataTable
+class VendorListDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -26,12 +26,12 @@ class VendorApprovalDataTable extends DataTable
         ->addColumn('action', function($row){
 
             // Update Button
-            $approveButton = "<a class='btn btn-sm btn-success' href='/vendor-approval/view/".$row->id."' data-id='".$row->id."' ><span class='material-symbols-outlined'>visibility</span></a>";
+            $approveButton = "<a class='btn btn-sm btn-success' href='/vendor/approval/view/".$row->id."' data-id='".$row->id."' ><span class='material-symbols-outlined'>visibility</span></a>";
 
             // Delete Button
-            // $rejectButton = "<button class='btn btn-sm btn-danger' data-id='".$row->id."'><span class='material-symbols-outlined'>close</span></button>";
+            $deleteButton = "<button class='btn btn-sm btn-danger' data-id='".$row->id."'><span class='material-symbols-outlined'>close</span></button>";
 
-            return $approveButton;
+            return $approveButton.$deleteButton;
 
        }) 
         ->smart(true)            
@@ -43,7 +43,7 @@ class VendorApprovalDataTable extends DataTable
      */
     public function query(VendorCompany $model): QueryBuilder
     {
-        $model =  $model->select('id','email','phone')->where('is_admin_verified', '!=', '1')->whereNotNull('user_id')->with('user');
+        $model =  $model->select('id','email','phone')->whereNotNull('user_id')->with('user');
         return $model->newQuery();
     }
 
@@ -53,24 +53,21 @@ class VendorApprovalDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('vendorapproval-table')
+                    ->setTableId('vendorlist-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
                     ->orderBy(1)
                     // ->selectStyleSingle();
                     ->buttons([
-                        // Button::make('excel'),
+                        Button::make('excel'),
                         // Button::make('csv'),
                         Button::make('pdf'),
-                        // Button::make('print'),
+                        Button::make('print'),
                         // Button::make('reset'),
                         Button::make('reload')
-                    ])
-                    ->parameters([
-                        'initComplete' => 'function () {
-                        }',
                     ]);
+                   
     }
 
     /**
@@ -97,6 +94,6 @@ class VendorApprovalDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'VendorApproval_' . date('YmdHis');
+        return 'VendorList_' . date('YmdHis');
     }
 }

@@ -27,4 +27,7 @@ Route::get('/countries/{id}/edit', [App\Http\Controllers\Admin\CountriesControll
 Route::put('/countries/{id}', [App\Http\Controllers\Admin\CountriesController::class, 'update'])->name('countries.update');
 Route::delete('/countries/{id}', [App\Http\Controllers\Admin\CountriesController::class, 'destroy'])->name('countries.destroy');
 
-Route::get('/vendor-approval', [App\Http\Controllers\Admin\VendorController::class, 'approve'])->name('vendor.approve');
+Route::get('/vendor/list', [App\Http\Controllers\Admin\VendorController::class, 'index'])->name('vendor.list');
+Route::get('/vendor/approval', [App\Http\Controllers\Admin\VendorController::class, 'approve'])->name('vendor.approve');
+Route::get('/vendor/approval/view/{id}', [App\Http\Controllers\Admin\VendorController::class, 'show'])->name('vendor.show');
+Route::post('/vendor/approval/store', [App\Http\Controllers\Admin\VendorController::class, 'store'])->name('vendor.approve-store');

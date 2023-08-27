@@ -1,7 +1,7 @@
 import './bootstrap';
 import './admin/sidebar'; 
 import 'laravel-datatables-vite';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2'
 import axios from 'axios';
-window.swal = swal;
+window.swal = Swal;
 window.axios = axios;

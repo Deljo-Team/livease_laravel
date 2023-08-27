@@ -37,10 +37,8 @@
           </button>
           <div class="collapse" id="dashboard-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small level-2">
-              <li><a href="/vendor-approval" class="rounded">Approval</a></li>
-              <li><a href="#" class="rounded">Weekly</a></li>
-              <li><a href="#" class="rounded">Monthly</a></li>
-              <li><a href="#" class="rounded">Annually</a></li>
+              <li><a href="{{route('vendor.list')}}" class="rounded">List</a></li>
+              <li><a href="{{route('vendor.approve')}}" class="rounded">Approval</a></li>
             </ul>
           </div>
         </li>

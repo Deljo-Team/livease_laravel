@@ -36,6 +36,22 @@ class ServicemenController extends Controller
     public function store(ServiceMenCreateRequest $request,FileStorageInterface $storage)
     {
         $user = auth('sanctum')->user();
+        if(!$user->vendor_company){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'You are not a vendor',
+                'Title'   => 'Failed',
+                'Data' => [],
+            ],403);
+        }
+        if($user->vendor_company->is_admin_verified != 1){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'Your company is not verified by admin',
+                'Title'   => 'Failed',
+                'Data' => [],
+            ],403);
+        }
         $vendor_company_id = $user->vendor_company->id;
         $file_name = $request->name.'_'.time().".";
         $id_proof = $storage->saveFile($request->file('id_proof'), $this->storage_path.$vendor_company_id,$file_name.$request->file('id_proof')->extension());
@@ -65,6 +81,22 @@ class ServicemenController extends Controller
     public function update(ServiceMenEditRequest $request,FileStorageInterface $storage)
     {
         $user = auth('sanctum')->user();
+        if(!$user->vendor_company){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'You are not a vendor',
+                'Title'   => 'Failed',
+                'Data' => [],
+            ],403);
+        }
+        if($user->vendor_company->is_admin_verified != 1){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'Your company is not verified by admin',
+                'Title'   => 'Failed',
+                'Data' => [],
+            ],403);
+        }
         $vendor_company_id = $user->vendor_company->id;
         $service_man = Servicemen::where('id', $request->id)->first();
         $data = $request->except(['id_proof']);
@@ -90,14 +122,29 @@ class ServicemenController extends Controller
     {
         // TODO::check if servicemen is assigned to any job
         $user = auth('sanctum')->user();
-
+        if(!$user->vendor_company){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'You are not a vendor',
+                'Title'   => 'Failed',
+                'Data' => [],
+            ],403);
+        }
+        if($user->vendor_company->is_admin_verified != 1){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'Your company is not verified by admin',
+                'Title'   => 'Failed',
+                'Data' => [],
+            ],403);
+        }
         if(!$id){
             return response()->json([
                 'Success' => false,
-                'Message' => 'Invallid message',
+                'Message' => 'Invalid Request',
                 'Title'   => 'Failed',
                 'Data' => [],
-            ],200);
+            ],401);
         }
         $service_man = Servicemen::where('id', $id)->first();
         if($service_man->vendor_company_id == $user->vendor_company->id){

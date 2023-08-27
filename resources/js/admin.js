@@ -1,1 +1,1 @@
-import './admin/vendor-approval.js'
+// import './admin/vendor-approval.js'
