@@ -29,4 +29,15 @@ class Servicemen extends Model
     {
         return $this->belongsTo(VendorCompany::class);
     }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'servicemen_categories')
+            ->withTimestamps();
+    }
+    public function sub_categories()
+    {
+        return $this->belongsToMany(SubCategory::class, 'servicemen_sub_categories')
+            ->withTimestamps();
+    }
 }

@@ -9,7 +9,7 @@
     </div>
     <div class="sidebar-body px-0">
       <ul class="list-unstyled ps-0">
-        {{-- <li class="mb-1 list-level-1">
+        <li class="mb-1 list-level-1">
           <button
             class="btn btn-toggle align-items-center rounded"
             data-bs-toggle="collapse"
@@ -25,7 +25,7 @@
               <li><a href="#" class="rounded">Reports</a></li>
             </ul>
           </div>
-        </li> --}}
+        </li>
         <li class="mb-1 list-level-1">
           <button
             class="btn btn-toggle align-items-center rounded "
@@ -72,7 +72,7 @@
           </button>
           <div class="collapse" id="account-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-              {{-- <li><a href="#" class="rounded">Profile</a></li> --}}
+              <li><a href="#" class="rounded">Profile</a></li>
               {{-- <li><a href="#" class="rounded">Settings</a></li> --}}
               <li><a href="{{route('logout')}}" class="rounded" onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">Log out</a></li>

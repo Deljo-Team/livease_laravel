@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('vendor_company_sub_categories', function (Blueprint $table) {
+        Schema::create('servicemen_sub_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('vendor_company_id')->constrained('vendor_companies');
+            $table->foreignId('servicemen_id')->constrained('servicemens');
             $table->foreignId('sub_category_id')->constrained('sub_categories');
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('vendor_company_sub_categories');
+        Schema::dropIfExists('servicemen_sub_categories');
     }
 };

@@ -29,7 +29,7 @@ class VendorListDataTable extends DataTable
             $approveButton = "<a class='btn btn-sm btn-success' href='/vendor/approval/view/".$row->id."' data-id='".$row->id."' ><span class='material-symbols-outlined'>visibility</span></a>";
 
             // Delete Button
-            $deleteButton = "<button class='btn btn-sm btn-danger' data-id='".$row->id."'><span class='material-symbols-outlined'>close</span></button>";
+            $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-id='".$row->id."'><span class='material-symbols-outlined'>close</span></button>";
 
             return $approveButton.$deleteButton;
 
@@ -66,6 +66,9 @@ class VendorListDataTable extends DataTable
                         Button::make('print'),
                         // Button::make('reset'),
                         Button::make('reload')
+                    ])->parameters([
+                        // 'drawCallback' => 'function() { test(); }',
+                        'initComplete' => 'function() { runAll(); }',
                     ]);
                    
     }

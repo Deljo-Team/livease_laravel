@@ -1,37 +1,62 @@
 @extends('layouts.admin')
 
 @section('content')
-
-<div class="container">
-    <div class="card">
-        <div class="card-header">Manage Countries</div>
-        <div class="card-body">
-            {{ $dataTable->table() }}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Manage Countries</div>
+            <div class="card-body">
+                {{ $dataTable->table() }}
+            </div>
         </div>
     </div>
-</div>
-<span class="material-symbols-outlined">
-    close
-    </span>
-
-    <div class="modal" tabindex="-1" id="updateModal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <p>Modal body text goes here.</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div>
 @endsection
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+    <script>
+        function runAll() {
+            let deleteButtons = document.querySelectorAll(".delete-button");
+            deleteButtons.forEach((button) => {
+                button.addEventListener("click", (e) => {
+                    swal
+                        .fire({
+                            title: "Do you want to Delete?",
+                            showDenyButton: true,
+                            // showCancelButton: true,
+                            confirmButtonText: "Yes",
+                            denyButtonText: "No",
+                            customClass: {
+                                actions: "my-actions",
+                                cancelButton: "order-1 right-gap",
+                                confirmButton: 'order-2',
+                                // denyButton: 'order-3',
+                            },
+                        })
+                        .then((result) => {
+                            if (result.isConfirmed) {
+                                let id = e.target.dataset.id;
+                                let url = "{{ route("countries.destroy",'id') }}";
+                                url = url.replace('id',id);
+                                let token = document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute("content");
+                                fetch(url, {
+                                        method: "DELETE",
+                                        headers: {
+                                            "X-CSRF-TOKEN": token,
+                                        },
+                                    })
+                                    .then((res) => {
+                                        return res.json();
+                                    })
+                                    .then((data) => {
+                                        if (data.status == "success") {
+                                            window.location.reload();
+                                        }
+                                    });
+                            }
+                        });
+                });
+            });
+        }
+    </script>
 @endpush

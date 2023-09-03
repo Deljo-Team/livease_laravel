@@ -23,6 +23,7 @@ class CountriesController extends Controller
     public function create()
     {
         //
+        return view('admin.pages.countries.create');
     }
 
     /**
@@ -31,6 +32,23 @@ class CountriesController extends Controller
     public function store(Request $request)
     {
         //
+        $validated = $request->validate([
+            'name' => 'required|unique:countries|max:255',
+            'code' => 'required|unique:countries|max:255',
+        ]);
+        if($validated){
+            try{
+            $country = new Countries();
+            $country->name = $request->name;
+            $country->code = $request->code;
+            $country->phone_code = $request->phone_code;
+            $country->save();
+            return response()->json(['success' => 1, 'message' => 'Country added successfully']);
+            }catch(\Exception $e){
+                return response()->json(['success' => 0, 'message' => 'Something went wrong']);
+            }
+        }
+       
     }
 
     /**
@@ -44,9 +62,11 @@ class CountriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Countries $countries)
+    public function edit(Countries $countries,$id)
     {
         //
+        $country = Countries::find($id);
+        return view('admin.pages.countries.edit',compact('country'));
     }
 
     /**
@@ -55,6 +75,22 @@ class CountriesController extends Controller
     public function update(Request $request, Countries $countries)
     {
         //
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'code' => 'required|max:255',
+        ]);
+        if($validated){
+            try{
+            $country = Countries::find($request->id);
+            $country->name = $request->name;
+            $country->code = $request->code;
+            $country->phone_code = $request->phone_code;
+            $country->save();
+            return response()->json(['success' => 1, 'message' => 'Country updated successfully']);
+            }catch(\Exception $e){
+                return response()->json(['success' => 0, 'message' => 'Something went wrong']);
+            }
+        }
     }
 
     /**

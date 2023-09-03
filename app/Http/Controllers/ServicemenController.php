@@ -60,13 +60,12 @@ class ServicemenController extends Controller
             'phone' => $request->phone,
             'vendor_company_id' => $vendor_company_id,
             'id_proof' => $id_proof,
-            'category_id' => $request->category,
-            'sub_category_id' => $request->sub_category,
             'is_available' => 0,
             'is_verified' => 0,
         );
         $service_man = Servicemen::create($data);
-
+        $service_man->categories()->attach($request->categories);
+        $service_man->sub_categories()->attach($request->sub_categories);
         return response()->json([
             'Success' => true,
             'Message' => 'Service Men created successfully',
@@ -99,7 +98,7 @@ class ServicemenController extends Controller
         }
         $vendor_company_id = $user->vendor_company->id;
         $service_man = Servicemen::where('id', $request->id)->first();
-        $data = $request->except(['id_proof']);
+        $data = $request->except(['id_proof','categories','sub_categories']);
         if($request->id_proof != null){
             $old_file = $service_man->getRawOriginal('id_proof');
             $file_name = $request->name.'_'.time().".";
@@ -109,7 +108,12 @@ class ServicemenController extends Controller
             $storage->deleteFile($old_file);
         }
         $service_man->update($data);
-
+        if(count($request->categories)){
+            $service_man->categories()->sync($request->categories);
+        }
+        if(count($request->sub_categories)){
+            $service_man->sub_categories()->sync($request->sub_categories);
+        }
         return response()->json([
             'Success' => true,
             'Message' => 'Service Men updated successfully',

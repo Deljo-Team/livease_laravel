@@ -27,10 +27,10 @@ class CountriesDataTable extends DataTable
             ->addColumn('action', function($row){
 
                 // Update Button
-                $updateButton = "<button class='btn btn-sm btn-info updateUser' data-id='".$row->id."' data-bs-toggle='modal' data-bs-target='#updateModal' ><span class='material-symbols-outlined'>edit</span></button>";
+                $updateButton = "<a class='btn btn-sm btn-info' data-id='".$row->id."' href='".route('countries.edit',$row->id)."' ><span class='material-symbols-outlined'>edit</span></a>";
 
                 // Delete Button
-                $deleteButton = "<button class='btn btn-sm btn-danger deleteUser' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
+                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
 
                 return $updateButton." ".$deleteButton;
 
@@ -61,13 +61,15 @@ class CountriesDataTable extends DataTable
                     ->orderBy(1)
                     // ->selectStyleSingle()
                     ->buttons([
-                        // Button::make('add'),
+                        Button::make('add'),
                         Button::make('excel'),
                         Button::make('csv'),
                         Button::make('pdf'),
                         Button::make('print'),
                         Button::make('reset'),
                         Button::make('reload')
+                    ])->parameters([
+                        'initComplete' => 'function() { runAll(); }',
                     ]);
     }
 
