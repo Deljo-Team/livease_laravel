@@ -40,4 +40,5 @@ class Servicemen extends Model
         return $this->belongsToMany(SubCategory::class, 'servicemen_sub_categories')
             ->withTimestamps();
     }
+
 }

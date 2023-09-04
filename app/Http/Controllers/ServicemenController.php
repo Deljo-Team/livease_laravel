@@ -21,8 +21,8 @@ class ServicemenController extends Controller
     public function index(Request $request)
     {
         $user = auth('sanctum')->user();
-        $service_man = Servicemen::where('vendor_company_id', $user->vendor_company->id)->get();
-        $service_man = $user->vendor_company->servicemen;
+        $service_man = Servicemen::where('vendor_company_id', $user->vendor_company->id)->with('categories','sub_categories')->get();
+        // $service_man = $user->vendor_company->servicemen;
         return response()->json([
             'Success' => true,
             'Message' => 'Service Men list fetched successfully',
@@ -64,8 +64,8 @@ class ServicemenController extends Controller
             'is_verified' => 0,
         );
         $service_man = Servicemen::create($data);
-        $service_man->categories()->attach($request->categories);
-        $service_man->sub_categories()->attach($request->sub_categories);
+        $service_man->categories()->attach($request->category);
+        $service_man->sub_categories()->attach($request->sub_category);
         return response()->json([
             'Success' => true,
             'Message' => 'Service Men created successfully',
