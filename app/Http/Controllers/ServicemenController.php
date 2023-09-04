@@ -21,7 +21,7 @@ class ServicemenController extends Controller
     public function index(Request $request)
     {
         $user = auth('sanctum')->user();
-        $service_man = Servicemen::where('vendor_company_id', $user->vendor_company->id)->with('categories','sub_categories')->get();
+        $service_man = Servicemen::where('vendor_company_id', $user->vendor_company->id)->with('categories.sub_categories')->get();
         // $service_man = $user->vendor_company->servicemen;
         return response()->json([
             'Success' => true,
