@@ -114,7 +114,7 @@ class ServicemenController extends Controller
         if($request->sub_category && count($request->sub_category)){
             $service_man->sub_categories()->sync($request->sub_category);
         }
-        $service_man = Servicemen::where('id', $request->id)->with('categories','sub_categories')->first();
+        $service_man = Servicemen::where('id', $request->id)->with('categories.sub_categories')->first();
         return response()->json([
             'Success' => true,
             'Message' => 'Service Men updated successfully',
