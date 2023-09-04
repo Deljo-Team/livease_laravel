@@ -109,10 +109,10 @@ class ServicemenController extends Controller
         }
         $service_man->update($data);
         if($request->category && count($request->category)){
-            $service_man->category()->sync($request->category);
+            $service_man->categories()->sync($request->category);
         }
         if($request->sub_category && count($request->sub_category)){
-            $service_man->sub_category()->sync($request->sub_category);
+            $service_man->sub_categories()->sync($request->sub_category);
         }
         return response()->json([
             'Success' => true,
