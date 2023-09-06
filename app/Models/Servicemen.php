@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Interfaces\FileStorageInterface;
 
 class Servicemen extends Model
 {
@@ -19,10 +20,19 @@ class Servicemen extends Model
         'is_available',
         'is_verified',
     ];
+    // protected function idProof(): Attribute
+    // {
+    //     return Attribute::make(
+    //         get: fn (string $value) => config('app.url') . '/storage/' . $value,
+    //     );
+    // }
     protected function idProof(): Attribute
     {
         return Attribute::make(
-            get: fn (string $value) => config('app.url') . '/storage/' . $value,
+            get: function (string $value) {
+                $storage = app(FileStorageInterface::class);
+                return $storage->getBase64File($value);
+            } 
         );
     }
     public function vendor_company()

@@ -33,4 +33,11 @@ class FileStorageAdapter implements FileStorageInterface
     {
           return Storage::url($path);
     }
+
+     function getBase64File($path)
+     {
+          $file = Storage::disk('public')->get($path);
+          $base64 = base64_encode($file);
+          return $base64;
+     }
 }
