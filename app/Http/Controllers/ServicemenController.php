@@ -7,6 +7,7 @@ use App\Http\Requests\ServiceMenDeleteRequest;
 use App\Http\Requests\ServiceMenEditRequest;
 use App\Interfaces\FileStorageInterface;
 use App\Models\Servicemen;
+use App\Models\User;
 use App\Models\VendorCompany;
 use Illuminate\Http\Request;
 
@@ -48,6 +49,15 @@ class ServicemenController extends Controller
             return response()->json([
                 'Success' => false,
                 'Message' => 'Your company is not verified by admin',
+                'Title'   => 'Failed',
+                'Data' => [],
+            ],403);
+        }
+        $customer = User::where('email',$request->email)->where('type','customer')->get();
+        if(!$customer){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'No valid customer found',
                 'Title'   => 'Failed',
                 'Data' => [],
             ],403);
