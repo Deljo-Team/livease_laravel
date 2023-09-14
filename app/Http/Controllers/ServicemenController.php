@@ -200,6 +200,14 @@ class ServicemenController extends Controller
             ], 401);
         }
         $service_man = Servicemen::where('id', $id)->first();
+        if(!$service_man){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'No valid servicemen found',
+                'Title'   => 'Failed',
+                'Data' => [],
+            ], 403);
+        }
         if ($service_man->vendor_company_id == $user->vendor_company->id) {
             //delete the id proof
             $old_file = $service_man->getRawOriginal('id_proof');
