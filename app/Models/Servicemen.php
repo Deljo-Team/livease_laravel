@@ -12,7 +12,7 @@ class Servicemen extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'phone',
+        'user_id',
         'vendor_company_id',
         'id_proof',
         'category_id',
@@ -49,6 +49,10 @@ class Servicemen extends Model
     {
         return $this->belongsToMany(SubCategory::class, 'servicemen_sub_categories')
             ->withTimestamps();
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

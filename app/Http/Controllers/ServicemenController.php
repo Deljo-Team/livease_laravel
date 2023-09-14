@@ -22,8 +22,14 @@ class ServicemenController extends Controller
     public function index(Request $request)
     {
         $user = auth('sanctum')->user();
-        $service_man = Servicemen::where('vendor_company_id', $user->vendor_company->id)->with('categories.sub_categories')->get();
-        // $service_man = $user->vendor_company->servicemen;
+        $service_man = Servicemen::where('vendor_company_id', $user->vendor_company->id)->with('categories','sub_categories')->get();
+        $service_man->each(function($serviceMan){
+            foreach($serviceMan->categories as $category){
+                $category->sub_categories = $serviceMan->sub_categories->where('category_id',$category->id);
+            }
+            $serviceMan->unsetRelation('sub_categories');
+            
+        });
         return response()->json([
             'Success' => true,
             'Message' => 'Service Men list fetched successfully',
@@ -53,7 +59,7 @@ class ServicemenController extends Controller
                 'Data' => [],
             ],403);
         }
-        $customer = User::where('email',$request->email)->where('type','customer')->get();
+        $customer = User::where('email',$request->email)->where('type','customer')->get()->first();
         if(!$customer){
             return response()->json([
                 'Success' => false,
@@ -67,7 +73,7 @@ class ServicemenController extends Controller
         $id_proof = $storage->saveFile($request->file('id_proof'), $this->storage_path.$vendor_company_id,$file_name.$request->file('id_proof')->extension());
         $data = array(
             'name' => $request->name,
-            'phone' => $request->phone,
+            'user_id' => $customer->id,
             'vendor_company_id' => $vendor_company_id,
             'id_proof' => $id_proof,
             'is_available' => 0,
@@ -106,9 +112,22 @@ class ServicemenController extends Controller
                 'Data' => [],
             ],403);
         }
+        
         $vendor_company_id = $user->vendor_company->id;
         $service_man = Servicemen::where('id', $request->id)->first();
-        $data = $request->except(['id_proof','categories','sub_categories']);
+        $data = $request->except(['id_proof','categories','sub_categories','email']);
+        if($request->email){
+            $customer = User::where('email',$request->email)->where('type','customer')->get()->first();
+            if(!$customer){
+                return response()->json([
+                    'Success' => false,
+                    'Message' => 'No valid customer found',
+                    'Title'   => 'Failed',
+                    'Data' => [],
+                ],403);
+            }
+            $data['user_id'] = $customer->id;
+        }
         if($request->id_proof != null){
             $old_file = $service_man->getRawOriginal('id_proof');
             $file_name = $request->name.'_'.time().".";
@@ -124,7 +143,14 @@ class ServicemenController extends Controller
         if($request->sub_category && count($request->sub_category)){
             $service_man->sub_categories()->sync($request->sub_category);
         }
-        $service_man = Servicemen::where('id', $request->id)->with('categories.sub_categories')->first();
+        $service_man = Servicemen::where('id', $request->id)->first();
+        $service_man->each(function($serviceMan){
+            foreach($serviceMan->categories as $category){
+                $category->sub_categories = $serviceMan->sub_categories->where('category_id',$category->id);
+            }
+            $serviceMan->unsetRelation('sub_categories');
+            
+        });
         return response()->json([
             'Success' => true,
             'Message' => 'Service Men updated successfully',
