@@ -82,6 +82,13 @@ class ServicemenController extends Controller
         $service_man = Servicemen::create($data);
         $service_man->categories()->attach($request->category);
         $service_man->sub_categories()->attach($request->sub_category);
+        $service_man->each(function($serviceMan){
+            foreach($serviceMan->categories as $category){
+                $category->sub_categories = $serviceMan->sub_categories->where('category_id',$category->id);
+            }
+            $serviceMan->unsetRelation('sub_categories');
+            
+        });
         return response()->json([
             'Success' => true,
             'Message' => 'Service Men created successfully',
