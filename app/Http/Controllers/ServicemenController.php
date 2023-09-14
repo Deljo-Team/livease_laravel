@@ -122,8 +122,17 @@ class ServicemenController extends Controller
         
         $vendor_company_id = $user->vendor_company->id;
         $service_man = Servicemen::where('id', $request->id)->first();
+        if(!$service_man){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'No valid servicemen found',
+                'Title'   => 'Failed',
+                'Data' => [],
+            ],403);
+        }
         $data = $request->except(['id_proof','categories','sub_categories','email']);
         if($request->email){
+
             $customer = User::where('email',$request->email)->where('type','customer')->get()->first();
             if(!$customer){
                 return response()->json([
