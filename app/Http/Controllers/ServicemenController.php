@@ -199,6 +199,8 @@ class ServicemenController extends Controller
             //delete the id proof
             $old_file = $service_man->getRawOriginal('id_proof');
             //delete the servicemen
+            $service_man->sub_categories->detach();
+            $service_man->categories->detach();
             $service_man->delete();
             $storage->deleteFile($old_file);
             return response()->json([
