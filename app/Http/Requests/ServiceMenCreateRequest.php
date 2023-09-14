@@ -23,7 +23,7 @@ class ServiceMenCreateRequest extends ApiRequest
     {
         return [
             'name' => 'required|string',
-            'phone' => 'required',
+            'email' => 'required',
             'category' => 'required|array',
             'sub_category' => 'required|array',
             'id_proof' => 'required',

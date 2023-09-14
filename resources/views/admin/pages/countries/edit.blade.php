@@ -38,7 +38,7 @@ let form = document.querySelector('#update');
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     let formData = new FormData(form);
-    let url = {{route('countries.update',$country->id)}}} 
+    let url = {{route('countries.update',$country->id)}} 
     let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     fetch(url, {
         method: 'PUT',
