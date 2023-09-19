@@ -30,7 +30,7 @@ class CountriesDataTable extends DataTable
                 $updateButton = "<a class='btn btn-sm btn-info' data-id='".$row->id."' href='".route('countries.edit',$row->id)."' ><span class='material-symbols-outlined'>edit</span></a>";
 
                 // Delete Button
-                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
+                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='".route('countries.destroy',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
 
                 return $updateButton." ".$deleteButton;
 

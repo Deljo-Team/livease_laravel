@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Service;
+use App\Models\Servicemen;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -26,7 +28,8 @@ class HomeController extends Controller
     {
         $customerCount = User::customers()->count();
         $vendorCount = User::vendors()->count();
-        // dd($customerCount, $vendorCount);
-        return view('home', compact('customerCount', 'vendorCount'));
+        $servicemenCount = Servicemen::count();
+        // dd($servicemenCount, $vendorCount);
+        return view('home', compact('customerCount', 'vendorCount', 'servicemenCount'));
     }
 }

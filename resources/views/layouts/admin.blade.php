@@ -38,6 +38,6 @@
         </main>
     </div>
     @stack('scripts')
-    @vite('resources/js/admin.js')
+    {{-- @vite('resources/js/admin.js') --}}
 </body>
 </html>
