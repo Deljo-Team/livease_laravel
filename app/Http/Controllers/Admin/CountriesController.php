@@ -82,6 +82,9 @@ class CountriesController extends Controller
         if($validated){
             try{
             $country = Countries::find($request->id);
+            if(!$country){
+                return response()->json(['success' => 0, 'message' => 'Country not found']);
+            }
             $country->name = $request->name;
             $country->code = $request->code;
             $country->phone_code = $request->phone_code;
@@ -96,8 +99,18 @@ class CountriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Countries $countries)
+    public function destroy(Request $request)
     {
         //
+        try{
+            $country = Countries::find($request->id);
+            if(!$country){
+                return response()->json(['success' => 0, 'message' => 'Country not found']);
+            }
+            $country->delete();
+            return response()->json(['success' => 1, 'message' => 'Country deleted successfully']);
+            }catch(\Exception $e){
+                return response()->json(['success' => 0, 'message' => 'Something went wrong']);
+            }
     }
 }
