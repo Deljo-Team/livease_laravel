@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\CategoriesDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Services\GeneralServices;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
+    protected $services;
+    public function __construct()
+    {
+        $this->services = new GeneralServices();
+    }
      /**
      * Display a listing of the resource.
      */
@@ -23,7 +29,7 @@ class CategoriesController extends Controller
     public function create()
     {
         //
-        return view('admin.pages.countries.create');
+        return view('admin.pages.categories.create');
     }
 
     /**
@@ -33,19 +39,20 @@ class CategoriesController extends Controller
     {
         //
         $validated = $request->validate([
-            'name' => 'required|unique:countries|max:255',
-            'code' => 'required|unique:countries|max:255',
+            'name' => 'required|unique:categories|max:255',
         ]);
+        
+        $slug = $this->services->slugify($request->name);
         if($validated){
             try{
-            $country = new Category();
-            $country->name = $request->name;
-            $country->code = $request->code;
-            $country->phone_code = $request->phone_code;
-            $country->save();
-            return response()->json(['success' => 1, 'message' => 'Country added successfully']);
+            $category = new Category();
+            $category->name = $request->name;
+            $category->slug = $slug;
+            $category->save();
+            return response()->json(['success' => 1, 'message' => 'Category added successfully']);
             }catch(\Exception $e){
-                return response()->json(['success' => 0, 'message' => 'Something went wrong']);
+                $message = $e->getMessage();
+                return response()->json(['success' => 0, 'message' => 'Something went wrong','error' => $message]);
             }
         }
        
@@ -65,8 +72,8 @@ class CategoriesController extends Controller
     public function edit(Category $category,$id)
     {
         //
-        $country = Category::find($id);
-        return view('admin.pages.countries.edit',compact('country'));
+        $category = Category::find($id);
+        return view('admin.pages.categories.edit',compact('category'));
     }
 
     /**
@@ -77,16 +84,15 @@ class CategoriesController extends Controller
         //
         $validated = $request->validate([
             'name' => 'required|max:255',
-            'code' => 'required|max:255',
         ]);
+        $slug = $this->services->slugify($request->name);
         if($validated){
             try{
-            $country = Category::find($request->id);
-            $country->name = $request->name;
-            $country->code = $request->code;
-            $country->phone_code = $request->phone_code;
-            $country->save();
-            return response()->json(['success' => 1, 'message' => 'Country updated successfully']);
+            $category = Category::find($request->id);
+            $category->name = $request->name;
+            $category->slug = $slug;
+            $category->save();
+            return response()->json(['success' => 1, 'message' => 'Category updated successfully']);
             }catch(\Exception $e){
                 return response()->json(['success' => 0, 'message' => 'Something went wrong']);
             }
@@ -96,8 +102,17 @@ class CategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(Request $request)
     {
-        //
+        try{
+            $category = Category::find($request->id);
+            if(!$category){
+                return response()->json(['success' => 0, 'message' => 'Category not found']);
+            }
+            $category->delete();
+            return response()->json(['success' => 1, 'message' => 'Category deleted successfully']);
+            }catch(\Exception $e){
+                return response()->json(['success' => 0, 'message' => 'Something went wrong']);
+            }
     }
 }
