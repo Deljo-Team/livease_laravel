@@ -7,10 +7,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
+use App\Services\GeneralServices;
 use Illuminate\Http\Request;
 
 class SubCategoriesController extends Controller
 {
+    protected $services;
+    public function __construct()
+    {
+        $this->services = new GeneralServices();
+    }
      /**
      * Display a listing of the resource.
      */
@@ -24,9 +30,8 @@ class SubCategoriesController extends Controller
      */
     public function create()
     {
-        //
-        $category = Category::all();
-        return view('admin.pages.sub_category.create',compact('category'));
+        $categories = Category::all();
+        return view('admin.pages.sub_categories.create',compact('categories'));
     }
 
     /**
@@ -36,17 +41,21 @@ class SubCategoriesController extends Controller
     {
         //
         $validated = $request->validate([
-            'name' => 'required|unique:sub_categories|max:255',
+            'name' => 'required|max:255|unique:sub_categories,name',
+            'category' => 'required|exists:categories,id'
         ]);
         if($validated){
+            $slug = $this->services->slugify($request->name);
             try{
             $sub_category = new SubCategory();
             $sub_category->name = $request->name;
             $sub_category->category_id = $request->category;
+            $sub_category->slug = $slug;
             $sub_category->save();
             return response()->json(['success' => 1, 'message' => 'SubSubCategory added successfully']);
             }catch(\Exception $e){
-                return response()->json(['success' => 0, 'message' => 'Something went wrong']);
+
+                return response()->json(['success' => 0, 'message' => 'Something went wrong','error' => $e->getMessage()]);
             }
         }
        
@@ -67,7 +76,8 @@ class SubCategoriesController extends Controller
     {
         //
         $sub_category = SubCategory::find($id);
-        return view('admin.pages.countries.edit',compact('country'));
+        $categories = Category::all();
+        return view('admin.pages.sub_categories.edit',compact('sub_category','categories'));
     }
 
     /**
@@ -77,19 +87,21 @@ class SubCategoriesController extends Controller
     {
         //
         $validated = $request->validate([
-            'name' => 'required|max:255',
-            'code' => 'required|max:255',
+            'name' => 'required|max:255|unique:sub_categories,name',
+            'category' => 'required|exists:categories,id'
         ]);
         if($validated){
+            $slug = $this->services->slugify($request->name);
             try{
             $sub_category = SubCategory::find($request->id);
+
             $sub_category->name = $request->name;
-            $sub_category->code = $request->code;
-            $sub_category->phone_code = $request->phone_code;
+            $sub_category->category_id = $request->category;
+            $sub_category->slug = $slug;
             $sub_category->save();
             return response()->json(['success' => 1, 'message' => 'Country updated successfully']);
             }catch(\Exception $e){
-                return response()->json(['success' => 0, 'message' => 'Something went wrong']);
+                return response()->json(['success' => 0, 'message' => 'Something went wrong','error' => $e->getMessage()]);
             }
         }
     }
@@ -97,8 +109,17 @@ class SubCategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SubCategory $category)
+    public function destroy(Request $request,SubCategory $category)
     {
-        //
+        try{
+            $sub_category = SubCategory::find($request->id);
+            if(!$sub_category){
+                return response()->json(['success' => 0, 'message' => 'Sub Category not found']);
+            }
+            $sub_category->delete();
+            return response()->json(['success' => 1, 'message' => 'Sub Category deleted successfully']);
+        }catch(\Exception $e){
+            return response()->json(['success' => 0, 'message' => 'Something went wrong']);
+        }
     }
 }

@@ -13,45 +13,45 @@
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
     <script>
-         function runAll() {
+        function runAll() {
 
-let deleteButtons = document.querySelectorAll(".delete-button");
-deleteButtons.forEach((button) => {
-    var url = button.dataset.url;
-    button.addEventListener("click", (e) => {
-        swal
-            .fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-            })
-            .then((result) => {
-                if (result.isConfirmed) {
-                    // let id = e.target.dataset.id;
+            let deleteButtons = document.querySelectorAll(".delete-button");
+            deleteButtons.forEach((button) => {
+                var url = button.dataset.url;
+                button.addEventListener("click", (e) => {
+                    swal
+                        .fire({
+                            title: 'Are you sure?',
+                            text: "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes, delete it!',
+                            cancelButtonText: 'No, cancel!',
+                            reverseButtons: true
+                        })
+                        .then((result) => {
+                            if (result.isConfirmed) {
+                                // let id = e.target.dataset.id;
 
-                    admin.sendRequest(url, 'DELETE').then((response) => {
-                        const data = response.data;
-                        console.log(data)
-                        if (data.success) {
-                            swal.fire({
-                                title: "Success",
-                                text: "Category Deleted Successfully",
-                                icon: "success",
-                                confirmButtonText: "Ok",
-                            }).then(() => {
-                                window.location.href =
-                                    "{{ route('categories') }}";
-                            })
-                        }
-                    });
-                }
+                                admin.sendRequest(url, 'DELETE').then((response) => {
+                                    const data = response.data;
+                                    console.log(data)
+                                    if (data.success) {
+                                        swal.fire({
+                                            title: "Success",
+                                            text: "Category Deleted Successfully",
+                                            icon: "success",
+                                            confirmButtonText: "Ok",
+                                        }).then(() => {
+                                            window.location.href =
+                                                "{{ route('categories') }}";
+                                        })
+                                    }
+                                });
+                            }
+                        });
+                });
             });
-    });
-});
-}
+        }
     </script>
 @endpush
