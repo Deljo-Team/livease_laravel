@@ -15,7 +15,7 @@ class CategoriesController extends Controller
     {
         $this->services = new GeneralServices();
     }
-     /**
+    /**
      * Display a listing of the resource.
      */
     public function index(CategoriesDataTable $dataTable)
@@ -41,21 +41,20 @@ class CategoriesController extends Controller
         $validated = $request->validate([
             'name' => 'required|unique:categories|max:255',
         ]);
-        
+
         $slug = $this->services->slugify($request->name);
-        if($validated){
-            try{
-            $category = new Category();
-            $category->name = $request->name;
-            $category->slug = $slug;
-            $category->save();
-            return response()->json(['success' => 1, 'message' => 'Category added successfully']);
-            }catch(\Exception $e){
+        if ($validated) {
+            try {
+                $category = new Category();
+                $category->name = $request->name;
+                $category->slug = $slug;
+                $category->save();
+                return response()->json(['success' => 1, 'message' => 'Category added successfully']);
+            } catch (\Exception $e) {
                 $message = $e->getMessage();
-                return response()->json(['success' => 0, 'message' => 'Something went wrong','error' => $message]);
+                return response()->json(['success' => 0, 'message' => 'Something went wrong', 'error' => $message]);
             }
         }
-       
     }
 
     /**
@@ -69,11 +68,11 @@ class CategoriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category,$id)
+    public function edit(Category $category, $id)
     {
         //
         $category = Category::find($id);
-        return view('admin.pages.categories.edit',compact('category'));
+        return view('admin.pages.categories.edit', compact('category'));
     }
 
     /**
@@ -86,14 +85,14 @@ class CategoriesController extends Controller
             'name' => 'required|max:255',
         ]);
         $slug = $this->services->slugify($request->name);
-        if($validated){
-            try{
-            $category = Category::find($request->id);
-            $category->name = $request->name;
-            $category->slug = $slug;
-            $category->save();
-            return response()->json(['success' => 1, 'message' => 'Category updated successfully']);
-            }catch(\Exception $e){
+        if ($validated) {
+            try {
+                $category = Category::find($request->id);
+                $category->name = $request->name;
+                $category->slug = $slug;
+                $category->save();
+                return response()->json(['success' => 1, 'message' => 'Category updated successfully']);
+            } catch (\Exception $e) {
                 return response()->json(['success' => 0, 'message' => 'Something went wrong']);
             }
         }
@@ -104,15 +103,15 @@ class CategoriesController extends Controller
      */
     public function destroy(Request $request)
     {
-        try{
+        try {
             $category = Category::find($request->id);
-            if(!$category){
+            if (!$category) {
                 return response()->json(['success' => 0, 'message' => 'Category not found']);
             }
             $category->delete();
             return response()->json(['success' => 1, 'message' => 'Category deleted successfully']);
-            }catch(\Exception $e){
-                return response()->json(['success' => 0, 'message' => 'Something went wrong']);
-            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => 0, 'message' => 'Something went wrong']);
+        }
     }
 }

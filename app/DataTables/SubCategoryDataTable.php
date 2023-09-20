@@ -29,7 +29,7 @@ class SubCategoryDataTable extends DataTable
                 $updateButton = "<a class='btn btn-sm btn-info' data-id='".$row->id."' href='".route('sub_categories.edit',$row->id)."' ><span class='material-symbols-outlined'>edit</span></a>";
 
                 // Delete Button
-                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
+                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='".route('sub_categories.destroy',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
 
                 return $updateButton." ".$deleteButton;
 
@@ -43,7 +43,7 @@ class SubCategoryDataTable extends DataTable
      */
     public function query(SubCategory $model): QueryBuilder
     {
-        $model =  $model->select('id','name','category_id')->with('category');
+        $model =  $model->select('id','name','category_id','slug')->with('category');
         return $model->newQuery();
     }
 
@@ -83,6 +83,7 @@ class SubCategoryDataTable extends DataTable
             Column::make('id'),
             Column::make('name'),
             Column::make('category.name')->title('Category'),
+            Column::make('slug'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
@@ -99,6 +100,6 @@ class SubCategoryDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Countries_' . date('YmdHis');
+        return 'Sub_Categories_' . date('YmdHis');
     }
 }
