@@ -13,15 +13,7 @@
             @csrf
             <div class="form-group">
               <label for="name"> Name</label>
-              <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name" value="{{$country->name}}">
-            </div>
-            <div class="form-group">
-              <label for="code">Code</label>
-              <input type="text" name="code" class="form-control" id="code" placeholder="Code" value="{{$country->code}}">
-            </div>
-            <div class="form-group">
-              <label for="phone_code">Phone Code</label>
-              <input type="text" name="phone_code" class="form-control" id="phone_code" placeholder="Phone Code" value="{{$country->phone_code}}">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name" value="{{$category->name}}">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
@@ -34,32 +26,65 @@
 @endsection
 @push('scripts')
 <script>
-let form = document.querySelector('#update');
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    let formData = new FormData(form);
-    let url = {{route('countries.update',$country->id)}}} 
-    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    fetch(url, {
-        method: 'PUT',
-        headers: {
-            'X-CSRF-TOKEN': token
-        },
-        body: formData
-    }).then((res) => {
-        return res.json();
-    }).then((data) => {
-        if (data.status == 'success') {
-            swal.fire({
-                title: "Success",
-                text: "Country Updated Successfully",
-                icon: "success",
-                confirmButtonText: "Ok",
-            }.then(() => {
-                window.location.href = "{{ route('countries') }}";
-            }))
-        }
-    })
-})
+      //load the script after the page is loaded
+      window.addEventListener('load', function() {
+            let form = document.getElementById("update");
+            form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    var formData = new FormData(e.target);
+
+                    const form_data = Object.fromEntries(formData.entries());
+
+                    // You now have the form data as a JSON object
+
+                    let url = "{{ route('categories.update', $category->id) }}"
+                    admin.sendRequest(url, 'PUT', form_data).then((response) => {
+                            const data = response.data;
+                            console.log(data)
+                            if (data.success) {
+                                swal.fire({
+                                    title: "Success",
+                                    text: "Category Updated Successfully",
+                                    icon: "success",
+                                    confirmButtonText: "Ok",
+                                }).then(() => {
+                                    window.location.href = "{{ route('categories') }}";
+                                })
+                        } else {
+                            swal.fire({
+                                title: "Error",
+                                text: data.message,
+                                icon: "error",
+                                confirmButtonText: "Ok",
+                            })
+                        }
+
+                    }).catch(function(error) {
+                    if (error.response) {
+                        // The request was made and the server responded with a status code
+                        // that falls out of the range of 2xx
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                        message = error.response.data.message;
+                        swal.fire({
+                            title: "Error",
+                            text: message,
+                            icon: "error",
+                            confirmButtonText: "Ok",
+                        })
+                    } else if (error.request) {
+                        // The request was made but no response was received
+                        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                        // http.ClientRequest in node.js
+                        console.log(error.request);
+                    } else {
+                        // Something happened in setting up the request that triggered an Error
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                });
+            })
+        });
 </script>
 @endpush

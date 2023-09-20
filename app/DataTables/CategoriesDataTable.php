@@ -9,8 +9,6 @@ use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class CategoriesDataTable extends DataTable
@@ -30,7 +28,7 @@ class CategoriesDataTable extends DataTable
                 $updateButton = "<a class='btn btn-sm btn-info' data-id='".$row->id."' href='".route('categories.edit',$row->id)."' ><span class='material-symbols-outlined'>edit</span></a>";
 
                 // Delete Button
-                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
+                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='".route('categories.destroy',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
 
                 return $updateButton." ".$deleteButton;
 
@@ -82,6 +80,7 @@ class CategoriesDataTable extends DataTable
             
             Column::make('id'),
             Column::make('name'),
+            Column::make('slug'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
@@ -98,6 +97,6 @@ class CategoriesDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Countries_' . date('YmdHis');
+        return 'Categories_' . date('YmdHis');
     }
 }

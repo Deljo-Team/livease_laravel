@@ -21,6 +21,19 @@ class GeneralServices
 
         return $otp;
     }
+
+    function slugify($input) {
+        // Convert multiple spaces to single spaces
+        $slug = preg_replace("/[[:blank:]]+/",' ', $input);
+        // Convert to lower case
+        $slug = strtolower($slug);
+        // Remove anything that's not a number, letter or space
+        $slug = preg_replace('/[^a-z0-9\s]+/', '', $slug);
+        // Trim, and replace spaces with hyphens
+        $slug = preg_replace('/\s/', '-', trim($slug));
+    
+        return $slug;
+    }
     
 
 }
