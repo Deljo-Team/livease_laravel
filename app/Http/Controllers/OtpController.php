@@ -68,6 +68,13 @@ class OtpController extends Controller
        ];
         if($otp_response['success'] && $type == 'register'){
             $user = User::where('id',$otp_response['user_id'])->first();
+                if($user->type == 'vendor'&& $user->vendor_company->is_admin_verified != 1){
+                    $response_array['Success'] = true;
+                    $response_array['Message'] = 'Please wait for admin to verify your company';
+                    $response_array['Title'] = 'Account Created Successfully';
+                    $response_array['Data'] = [];
+                    return response()->json($response_array, 201);
+                }
             $token = $user->createToken($request->device_name)->plainTextToken;
             $response_array['Data'] = ['token' => $token];
         }
