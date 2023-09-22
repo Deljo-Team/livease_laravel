@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CountriesController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ServicemenController;
@@ -37,8 +38,10 @@ Route::post('/register/vendor/category', [RegisterController::class, 'vendorCate
 Route::post('/register/vendor/details', [RegisterController::class, 'vendorCompanyDetails']);
 Route::post('/register/vendor/address', [RegisterController::class, 'vendorCompanyAddress']);
 Route::post('/register/vendor/logo', [RegisterController::class, 'vendorCompanyLogo']);
-// Route::post('/register/vendor/signature', [RegisterController::class, 'vendorCompanySignature']);
 Route::post('/register', [RegisterController::class, 'index']);
+
+Route::post('/locations', [LocationController::class, 'index']);
+Route::post('/sub-locations', [LocationController::class, 'viewSubLocations']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/reset-password', [LoginController::class, 'resetPassword']);

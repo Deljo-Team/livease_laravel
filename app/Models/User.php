@@ -63,6 +63,16 @@ class User extends Authenticatable
         return $this->hasOne(VendorCompany::class);
     }
 
+    public function locations()
+    {
+        return $this->belongsToMany(Location::class, 'users_locations', 'user_id', 'location_id');
+    }
+
+    public function sub_locations()
+    {
+        return $this->belongsToMany(SubLocation::class, 'users_sub_locations', 'user_id', 'sub_location_id');
+    }
+
     public function scopeCustomers($query)
     {
         return $query->where('type', 'customer');

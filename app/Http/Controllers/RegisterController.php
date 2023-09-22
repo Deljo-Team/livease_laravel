@@ -31,13 +31,17 @@ class RegisterController extends Controller
     {
 
         try {
-            $user = User::create($request->except('vendor_company_id'));
-            //send otp to verify email
+            $user = User::create($request->except('vendor_company_id','locations','sub_locations'));
             if($request->type == 'vendor')
             {
                 $vendor = VendorCompany::find($request->vendor_company_id);
                 $vendor->update(['user_id' => $user->id]);
             }
+            //attach the locations and sub locations
+            $user->locations()->attach($request->locations);
+            $user->sub_locations()->attach($request->sub_locations);
+            //send otp to verify email
+
             $type = 'register';
             $service = new GeneralServices();
             $otp_response = $otp->sendOtp($user, $service->generateUniqueOTP(), $type);
