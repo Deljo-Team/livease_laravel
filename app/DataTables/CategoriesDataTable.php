@@ -25,10 +25,10 @@ class CategoriesDataTable extends DataTable
             ->addColumn('action', function($row){
 
                 // Update Button
-                $updateButton = "<a class='btn btn-sm btn-info' data-id='".$row->id."' href='".route('categories.edit',$row->id)."' ><span class='material-symbols-outlined'>edit</span></a>";
+                $updateButton = "<a class='btn btn-sm btn-info' data-id='".$row->id."' href='".route('category.edit',$row->id)."' ><span class='material-symbols-outlined'>edit</span></a>";
 
                 // Delete Button
-                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='".route('categories.destroy',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
+                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='".route('category.destroy',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
 
                 return $updateButton." ".$deleteButton;
 

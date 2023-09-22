@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header">Manage Sub Category</div>
+            <div class="card-header">Manage Locations</div>
             <div class="card-body">
                 {{ $dataTable->table() }}
             </div>
@@ -35,16 +35,15 @@ deleteButtons.forEach((button) => {
 
                     admin.sendRequest(url, 'DELETE').then((response) => {
                         const data = response.data;
-                        console.log(data)
                         if (data.success) {
                             swal.fire({
                                 title: "Success",
-                                text: "Sub Category Deleted Successfully",
+                                text: "location Deleted Successfully",
                                 icon: "success",
                                 confirmButtonText: "Ok",
                             }).then(() => {
                                 window.location.href =
-                                    "{{ route('sub-category.index') }}";
+                                    "{{ route('locations.index') }}";
                             })
                         }
                     });

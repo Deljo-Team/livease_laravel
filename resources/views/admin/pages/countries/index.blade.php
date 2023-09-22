@@ -45,7 +45,7 @@
                                             confirmButtonText: "Ok",
                                         }).then(() => {
                                             window.location.href =
-                                                "{{ route('countries') }}";
+                                                "{{ route('countries.index') }}";
                                         })
                                     }
                                 });

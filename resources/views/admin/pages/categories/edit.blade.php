@@ -37,7 +37,7 @@
 
                     // You now have the form data as a JSON object
 
-                    let url = "{{ route('categories.update', $category->id) }}"
+                    let url = "{{ route('category.update', $category->id) }}"
                     admin.sendRequest(url, 'PUT', form_data).then((response) => {
                             const data = response.data;
                             console.log(data)
@@ -48,7 +48,7 @@
                                     icon: "success",
                                     confirmButtonText: "Ok",
                                 }).then(() => {
-                                    window.location.href = "{{ route('categories') }}";
+                                    window.location.href = "{{ route('category.index') }}";
                                 })
                         } else {
                             swal.fire({

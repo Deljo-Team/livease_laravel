@@ -37,7 +37,7 @@ window.addEventListener('load', function() {
 
                     // You now have the form data as a JSON object
 
-                    let url = "{{ route('categories.store')}}"
+                    let url = "{{ route('category.store')}}"
                     admin.sendRequest(url, 'POST', form_data).then((response) => {
                             const data = response.data;
                             console.log(data)
@@ -48,7 +48,7 @@ window.addEventListener('load', function() {
                                     icon: "success",
                                     confirmButtonText: "Ok",
                                 }).then(() => {
-                                    window.location.href = "{{ route('categories') }}";
+                                    window.location.href = "{{ route('category.index') }}";
                                 })
                         } else {
                             swal.fire({

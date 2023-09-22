@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Countries;
+use App\Models\SubLocation;
 
 class Location extends Model
 {
@@ -17,7 +19,7 @@ class Location extends Model
 
     public function country()
     {
-        return $this->belongsTo(Country::class);
+        return $this->belongsTo(Countries::class);
     }
 
     public function sub_locations()

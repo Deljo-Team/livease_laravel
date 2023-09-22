@@ -5,7 +5,7 @@
 <div class="container">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-          <h5>Edit Sub Category</h5>
+          <h5>Edit Location</h5>
           <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
         </div>
         <div class="card-body">
@@ -13,18 +13,18 @@
             @csrf
             <div class="form-group">
               <label for="name"> Name</label>
-              <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name" value="{{$sub_category->name}}">
+              <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name" value="{{$location->name}}">
             </div>
             <div class="form-group">
-              <label for="code">Category</label>
-              <select  name="category" class="form-control" id="category" placeholder="Category" >
-                <option value="">Select Category</option>
-                @foreach ($categories as $category)
-                <option value="{{$category->id}}" {{$category->id == $sub_category->category_id ? 'selected' : ''}}>{{$category->name}}</option>
+              <label for="code">Country</label>
+              <select  name="country" class="form-control" id="country" placeholder="country" >
+                <option value="">Select Country</option>
+                @foreach ($countries as $country)
+                <option value="{{$country->id}}" {{$country->id == $location->country_id ? 'selected' : ''}}>{{$country->name}}</option>
                 @endforeach
               </select>
             </div>
-            <input type="hidden" name="id" value="{{$sub_category->id}}">
+            <input type="hidden" name="id" value="{{$location->id}}">
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
         </div>
@@ -47,18 +47,17 @@
 
                     // You now have the form data as a JSON object
 
-                    let url = "{{ route('sub-category.update', $category->id) }}"
+                    let url = "{{ route('locations.update', $location->id) }}"
                     admin.sendRequest(url, 'PUT', form_data).then((response) => {
                             const data = response.data;
-                            console.log(data)
                             if (data.success) {
                                 swal.fire({
                                     title: "Success",
-                                    text: "Sub Category Updated Successfully",
+                                    text: data.message,
                                     icon: "success",
                                     confirmButtonText: "Ok",
                                 }).then(() => {
-                                    window.location.href = "{{ route('sub-category.index') }}";
+                                    window.location.href = "{{ route('locations.index') }}";
                                 })
                         } else {
                             swal.fire({

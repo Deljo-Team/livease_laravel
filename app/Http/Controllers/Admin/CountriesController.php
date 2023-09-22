@@ -62,18 +62,18 @@ class CountriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Countries $countries,$id)
+    public function edit(Countries $countries,$country_id)
     {
-        //
-        $country = Countries::find($id);
+        $country = Countries::find($country_id);
         return view('admin.pages.countries.edit',compact('country'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Countries $countries)
+    public function update(Request $request, Countries $country)
     {
+       
         //
         $validated = $request->validate([
             'name' => 'required|max:255',
@@ -81,7 +81,6 @@ class CountriesController extends Controller
         ]);
         if($validated){
             try{
-            $country = Countries::find($request->id);
             if(!$country){
                 return response()->json(['success' => 0, 'message' => 'Country not found']);
             }
@@ -99,11 +98,11 @@ class CountriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(Countries $country)
     {
         //
         try{
-            $country = Countries::find($request->id);
+            // $country = Countries::find($request->id);
             if(!$country){
                 return response()->json(['success' => 0, 'message' => 'Country not found']);
             }

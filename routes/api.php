@@ -48,6 +48,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('api.logout');
 
     Route::post('vendor/profile', [VendorController::class, 'index']);
+    Route::post('vendor/profile/update', [VendorController::class, 'updateProfile']);
 
     Route::post('vendor/transactions/list', [TransactionController::class, 'index']);
     Route::post('vendor/transactions/store', [TransactionController::class, 'create']);
@@ -59,5 +60,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('servicemen/create',[ServicemenController::class, 'store']);
     Route::post('servicemen/edit',[ServicemenController::class, 'update']);
     Route::delete('servicemen/{id}', [ServicemenController::class, 'destroy']);
+
 
 });

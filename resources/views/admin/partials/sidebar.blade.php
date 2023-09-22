@@ -21,9 +21,10 @@
                 </button>
                 <div class="collapse show" id="home-collapse" style="">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small level-2">
-                        <li><a href="{{ route('countries') }}" class="rounded">Countries</a></li>
-                        <li><a href="{{ route('categories') }}" class="rounded">Categories</a></li>
-                        <li><a href="{{ route('sub_categories') }}" class="rounded">Sub Categories</a></li>
+                        <li><a href="{{ route('countries.index') }}" class="rounded">Countries</a></li>
+                        <li><a href="{{ route('category.index') }}" class="rounded">Categories</a></li>
+                        <li><a href="{{ route('sub-category.index') }}" class="rounded">Sub Categories</a></li>
+                        <li><a href="{{ route('locations.index') }}" class="rounded">Locations</a></li>
                         <li><a href="#" class="rounded">Reports</a></li>
                     </ul>
                 </div>

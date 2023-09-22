@@ -44,7 +44,7 @@
                                             confirmButtonText: "Ok",
                                         }).then(() => {
                                             window.location.href =
-                                                "{{ route('categories') }}";
+                                                "{{ route('category.index') }}";
                                         })
                                     }
                                 });

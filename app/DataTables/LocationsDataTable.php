@@ -2,17 +2,15 @@
 
 namespace App\DataTables;
 
-use App\Models\SubCategory;
+use App\Models\Location;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class SubCategoryDataTable extends DataTable
+class LocationsDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,14 +20,14 @@ class SubCategoryDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            // ->addColumn('action', 'countries.action')
+            // ->addColumn('action', 'locations.action')
             ->addColumn('action', function($row){
 
                 // Update Button
-                $updateButton = "<a class='btn btn-sm btn-info' data-id='".$row->id."' href='".route('sub-category.edit',$row->id)."' ><span class='material-symbols-outlined'>edit</span></a>";
+                $updateButton = "<a class='btn btn-sm btn-info' data-id='".$row->id."' href='".route('locations.edit',$row->id)."' ><span class='material-symbols-outlined'>edit</span></a>";
 
                 // Delete Button
-                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='".route('sub-category.destroy',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
+                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='".route('locations.destroy',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
 
                 return $updateButton." ".$deleteButton;
 
@@ -41,9 +39,9 @@ class SubCategoryDataTable extends DataTable
     /**
      * Get the query source of dataTable.
      */
-    public function query(SubCategory $model): QueryBuilder
+    public function query(Location $model): QueryBuilder
     {
-        $model =  $model->select('id','name','category_id','slug')->with('category');
+        $model =  $model->with('country');
         return $model->newQuery();
     }
 
@@ -53,7 +51,7 @@ class SubCategoryDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('sub-category-table')
+                    ->setTableId('location-table')
                     ->columns($this->getColumns())
                    
                     ->minifiedAjax()
@@ -82,8 +80,8 @@ class SubCategoryDataTable extends DataTable
             
             Column::make('id'),
             Column::make('name'),
-            Column::make('category.name')->title('Category'),
             Column::make('slug'),
+            Column::make('country.name')->title('Country'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
@@ -100,6 +98,6 @@ class SubCategoryDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Sub_Categories_' . date('YmdHis');
+        return 'Locations' . date('YmdHis');
     }
 }

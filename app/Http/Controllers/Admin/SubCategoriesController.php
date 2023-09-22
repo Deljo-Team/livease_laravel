@@ -6,9 +6,9 @@ use App\DataTables\SubCategoryDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\SubCategory;
-use App\Models\SubSubCategory;
 use App\Services\GeneralServices;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SubCategoriesController extends Controller
 {
@@ -62,14 +62,6 @@ class SubCategoriesController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(SubCategory $category)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(SubCategory $category,$id)
@@ -83,11 +75,11 @@ class SubCategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SubCategory $category)
+    public function update(Request $request)
     {
         //
         $validated = $request->validate([
-            'name' => 'required|max:255|unique:sub_categories,name',
+            'name' => ['required','max:255',Rule::unique('sub_categories')->ignore($request->id)],
             'category' => 'required|exists:categories,id'
         ]);
         if($validated){
@@ -99,7 +91,7 @@ class SubCategoriesController extends Controller
             $sub_category->category_id = $request->category;
             $sub_category->slug = $slug;
             $sub_category->save();
-            return response()->json(['success' => 1, 'message' => 'Country updated successfully']);
+            return response()->json(['success' => 1, 'message' => 'SubCategory updated successfully']);
             }catch(\Exception $e){
                 return response()->json(['success' => 0, 'message' => 'Something went wrong','error' => $e->getMessage()]);
             }
@@ -109,10 +101,10 @@ class SubCategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request,SubCategory $category)
+    public function destroy(Request $request,string $id)
     {
         try{
-            $sub_category = SubCategory::find($request->id);
+            $sub_category = SubCategory::find($id);
             if(!$sub_category){
                 return response()->json(['success' => 0, 'message' => 'Sub Category not found']);
             }

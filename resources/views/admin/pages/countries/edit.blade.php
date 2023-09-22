@@ -56,7 +56,7 @@
                                     icon: "success",
                                     confirmButtonText: "Ok",
                                 }).then(() => {
-                                    window.location.href = "{{ route('countries') }}";
+                                    window.location.href = "{{ route('countries.index') }}";
                                 })
                         } else {
                             swal.fire({
