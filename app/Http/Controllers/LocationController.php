@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LocationApiRequest;
 use App\Models\Location;
 use App\Models\SubLocation;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ class LocationController extends Controller
 {
     //
 
-    public function index(Request $request)
+    public function index(LocationApiRequest $request)
     {
         $country_id = $request->country_id;
         $locations = Location::with('sub_locations')->where('country_id', $country_id)->get();
