@@ -33,7 +33,14 @@ class SubCategoryDataTable extends DataTable
 
                 return $updateButton." ".$deleteButton;
 
-           }) 
+           })->addColumn('row_number', function ($row) {
+                static $row_number = 0;
+                $page = request()->input('start', 1); // Default to page 1
+                // Calculate the row number based on the current page and row index
+                ++$row_number;
+                $rowNumber = $page  + $row_number;
+                return $rowNumber;
+            })
             ->smart(true)
             ->setRowId('id');
     }
@@ -57,7 +64,7 @@ class SubCategoryDataTable extends DataTable
                     ->columns($this->getColumns())
                    
                     ->minifiedAjax()
-                    //->dom('Bfrtip')
+                    // ->dom('Bfrtip')
                     ->orderBy(1)
                     // ->selectStyleSingle()
                     ->buttons([
@@ -79,8 +86,14 @@ class SubCategoryDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            
-            Column::make('id'),
+            Column::computed('row_number')
+                ->title('#')
+                ->exportable(false)
+                ->printable(false)
+                ->width(20)
+                ->addClass('text-center')
+                ->orderable(false)
+                ->searchable(false),
             Column::make('name'),
             Column::make('category.name')->title('Category'),
             Column::make('slug'),

@@ -29,11 +29,18 @@ class VendorListDataTable extends DataTable
             $approveButton = "<a class='btn btn-sm btn-success' href='/vendor/approval/view/".$row->id."' data-id='".$row->id."' ><span class='material-symbols-outlined'>visibility</span></a>";
 
             // Delete Button
-            $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-id='".$row->id."'><span class='material-symbols-outlined'>close</span></button>";
+            // $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-id='".$row->id."'><span class='material-symbols-outlined'>close</span></button>";
 
-            return $approveButton.$deleteButton;
+            return $approveButton;
 
-       }) 
+       })->addColumn('row_number', function ($row) {
+            static $row_number = 0;
+            $page = request()->input('start', 1); // Default to page 1
+            // Calculate the row number based on the current page and row index
+            ++$row_number;
+            $rowNumber = $page  + $row_number;
+            return $rowNumber;
+        })
         ->smart(true)            
         ->setRowId('id');
     }
@@ -79,8 +86,14 @@ class VendorListDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('email'),
+            Column::computed('row_number')
+            ->title('#')
+            ->exportable(false)
+            ->printable(false)
+            ->width(20)
+            ->addClass('text-center')
+            ->orderable(false)
+            ->searchable(false),            Column::make('email'),
             Column::make('phone'),
             Column::make('user.name'),
             Column::computed('action')

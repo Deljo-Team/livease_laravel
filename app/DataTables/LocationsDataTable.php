@@ -21,17 +21,23 @@ class LocationsDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             // ->addColumn('action', 'locations.action')
-            ->addColumn('action', function($row){
+            ->addColumn('action', function ($row) {
 
                 // Update Button
-                $updateButton = "<a class='btn btn-sm btn-info' data-id='".$row->id."' href='".route('locations.edit',$row->id)."' ><span class='material-symbols-outlined'>edit</span></a>";
+                $updateButton = "<a class='btn btn-sm btn-info' data-id='" . $row->id . "' href='" . route('locations.edit', $row->id) . "' ><span class='material-symbols-outlined'>edit</span></a>";
 
                 // Delete Button
-                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='".route('locations.destroy',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
+                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='" . route('locations.destroy', $row->id) . "' data-id='" . $row->id . "'><span class='material-symbols-outlined'>delete_forever</span></button>";
 
-                return $updateButton." ".$deleteButton;
-
-           }) 
+                return $updateButton . " " . $deleteButton;
+            })->addColumn('row_number', function ($row) {
+                static $row_number = 0;
+                $page = request()->input('start', 1); // Default to page 1
+                // Calculate the row number based on the current page and row index
+                ++$row_number;
+                $rowNumber = $page  + $row_number;
+                return $rowNumber;
+            })
             ->smart(true)
             ->setRowId('id');
     }
@@ -51,24 +57,24 @@ class LocationsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('location-table')
-                    ->columns($this->getColumns())
-                   
-                    ->minifiedAjax()
-                    //->dom('Bfrtip')
-                    ->orderBy(1)
-                    // ->selectStyleSingle()
-                    ->buttons([
-                        Button::make('add'),
-                        Button::make('excel'),
-                        Button::make('csv'),
-                        Button::make('pdf'),
-                        Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
-                    ])->parameters([
-                        'initComplete' => 'function() { runAll(); }',
-                    ]);
+            ->setTableId('location-table')
+            ->columns($this->getColumns())
+
+            ->minifiedAjax()
+            //->dom('Bfrtip')
+            ->orderBy(1)
+            // ->selectStyleSingle()
+            ->buttons([
+                Button::make('add'),
+                Button::make('excel'),
+                Button::make('csv'),
+                Button::make('pdf'),
+                Button::make('print'),
+                Button::make('reset'),
+                Button::make('reload')
+            ])->parameters([
+                'initComplete' => 'function() { runAll(); }',
+            ]);
     }
 
     /**
@@ -77,17 +83,24 @@ class LocationsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            
-            Column::make('id'),
+            Column::computed('row_number')
+                ->title('#')
+                ->exportable(false)
+                ->printable(false)
+                ->width(20)
+                ->addClass('text-center')
+                ->orderable(false)
+                ->searchable(false),
+            // Column::make('id'),
             Column::make('name'),
             Column::make('slug'),
             Column::make('country.name')->title('Country'),
             Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(120)
+                ->exportable(false)
+                ->printable(false)
+                ->width(120)
                 //   ->render('\'<button class="btn btn-sm btn-primary">Edit</button>   <button class="btn btn-sm btn-danger">Delete</button>\'')
-                  ->addClass('text-center'),
+                ->addClass('text-center'),
             // Column::make('created_at'),
             // Column::make('updated_at'),
         ];
