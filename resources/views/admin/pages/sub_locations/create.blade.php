@@ -1,71 +1,68 @@
 @extends('layouts.admin')
 
 @section('content')
-
-<div class="container">
-    <div class="card">
-        <div class="card-header d-flex justify-content-between">
-          <h5>Create Sub Category</h5>
-          <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
-        </div>
-        <div class="card-body">
-          <form id="store" action="{{route('sub-category.store')}}" type="POST">
-            @csrf
-            <div class="form-group">
-              <label for="name"> Name</label>
-              <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name">
+    <div class="container">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5>Create Sub Location</h5>
+                <a href="{{ url()->previous() }}" class="btn btn-primary">Back</a>
             </div>
-            <div class="form-group">
-              <label for="category">Category</label>
-              <select  name="category" class="form-control" id="category" placeholder="Category" >
-                <option value="">Select Category</option>
-                @foreach ($categories as $category)
-                <option value="{{$category->id}}" >{{$category->name}}</option>
-                @endforeach
-              </select>            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
+            <div class="card-body">
+                <form id="store" action="{{ route('sub-locations.store') }}" type="POST">
+                    @csrf
+                    <div class="form-group">
+                        <label for="name"> Name</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Enter Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <select name="location" class="form-control" id="location" placeholder="Location">
+                            <option value="">Select Location</option>
+                            @foreach ($locations as $location)
+                                <option value="{{ $location->id }}">{{ $location->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
-
-        
 @endsection
 @push('scripts')
-<script>
-//load the script after the page is loaded
-window.addEventListener('load', function() {
+    <script>
+        //load the script after the page is loaded
+        window.addEventListener('load', function() {
             let form = document.getElementById("store");
             form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    var formData = new FormData(e.target);
+                e.preventDefault();
+                var formData = new FormData(e.target);
 
-                    const form_data = Object.fromEntries(formData.entries());
+                const form_data = Object.fromEntries(formData.entries());
 
-                    // You now have the form data as a JSON object
+                // You now have the form data as a JSON object
 
-                    let url = "{{ route('sub-category.store')}}"
-                    admin.sendRequest(url, 'POST', form_data).then((response) => {
-                            const data = response.data;
-                            if (data.success) {
-                                swal.fire({
-                                    title: "Success",
-                                    text: "Sub Category Created Successfully",
-                                    icon: "success",
-                                    confirmButtonText: "Ok",
-                                }).then(() => {
-                                    window.location.href = "{{ route('sub-category.index') }}";
-                                })
-                        } else {
-                            swal.fire({
-                                title: "Error",
-                                text: data.message,
-                                icon: "error",
-                                confirmButtonText: "Ok",
-                            })
-                        }
-                    }).catch(function(error) {
+                let url = "{{ route('sub-locations.store') }}"
+                admin.sendRequest(url, 'POST', form_data).then((response) => {
+                    const data = response.data;
+                    if (data.success) {
+                        swal.fire({
+                            title: "Success",
+                            text: "Sub Location Created Successfully",
+                            icon: "success",
+                            confirmButtonText: "Ok",
+                        }).then(() => {
+                            window.location.href = "{{ route('sub-locations.index') }}";
+                        })
+                    } else {
+                        swal.fire({
+                            title: "Error",
+                            text: data.message,
+                            icon: "error",
+                            confirmButtonText: "Ok",
+                        })
+                    }
+                }).catch(function(error) {
                     if (error.response) {
                         // The request was made and the server responded with a status code
                         // that falls out of the range of 2xx
@@ -102,6 +99,6 @@ window.addEventListener('load', function() {
                     console.log(error.config);
                 });;
             });
-});
-</script>
+        });
+    </script>
 @endpush

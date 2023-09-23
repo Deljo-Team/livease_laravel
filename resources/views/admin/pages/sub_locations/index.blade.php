@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header">Manage Sub Category</div>
+            <div class="card-header">Manage Sub Location</div>
             <div class="card-body">
                 {{ $dataTable->table() }}
             </div>
@@ -39,12 +39,12 @@ deleteButtons.forEach((button) => {
                         if (data.success) {
                             swal.fire({
                                 title: "Success",
-                                text: "Sub Category Deleted Successfully",
+                                text: "Sub Location Deleted Successfully",
                                 icon: "success",
                                 confirmButtonText: "Ok",
                             }).then(() => {
                                 window.location.href =
-                                    "{{ route('sub-category.index') }}";
+                                    "{{ route('sub-locations.index') }}";
                             })
                         }
                     });
