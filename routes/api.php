@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CountriesController;
+use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\RegisterController;
@@ -64,6 +65,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('job-application',[JobApplicationController::class, 'index']);
     Route::post('job-application',[JobApplicationController::class, 'storeOrUpdate']);
     Route::delete('job-application/{job_application_id}',[JobApplicationController::class, 'destroy']);
+    Route::post('vendor/job-application',[JobApplicationController::class, 'listJobApplications']);
+
+    Route::get('nominee',[NomineeController::class, 'index']);
+    Route::post('nominee',[NomineeController::class, 'storeOrUpdate']);
+    Route::delete('nominee/{nominee_id}',[NomineeController::class, 'destroy']);
+
 
 
 });

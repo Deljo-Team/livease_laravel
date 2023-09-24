@@ -32,19 +32,6 @@ Route::resources([
     'locations' => LocationController::class,
     'sub-locations' => SubLocationController::class,
 ]);
-// Route::get('/category', [CategoriesController::class, 'index'])->name('categories');
-// Route::get('/category/create', [CategoriesController::class, 'create'])->name('categories.create');
-// Route::post('/category', [CategoriesController::class, 'store'])->name('categories.store');
-// Route::get('/category/{id}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');
-// Route::put('/category/{id}', [CategoriesController::class, 'update'])->name('categories.update');
-// Route::delete('/category/{id}', [CategoriesController::class, 'destroy'])->name('categories.destroy');
-
-// Route::get('/sub-category', [SubCategoriesController::class, 'index'])->name('sub_categories');
-// Route::get('/sub-category/create', [SubCategoriesController::class, 'create'])->name('sub_categories.create');
-// Route::post('/sub-category', [SubCategoriesController::class, 'store'])->name('sub_categories.store');
-// Route::get('/sub-category/{id}/edit', [SubCategoriesController::class, 'edit'])->name('sub_categories.edit');
-// Route::put('/sub-category/{id}', [SubCategoriesController::class, 'update'])->name('sub_categories.update');
-// Route::delete('/sub-category/{id}', [SubCategoriesController::class, 'destroy'])->name('sub_categories.destroy');
 
 Route::get('/vendor/list', [VendorController::class, 'index'])->name('vendor.list');
 Route::get('/vendor/approval', [VendorController::class, 'approve'])->name('vendor.approve');
