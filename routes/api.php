@@ -14,6 +14,7 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\GenderController;
+use App\Http\Controllers\VisaController;
 use App\Models\Service;
 
 /*
@@ -48,6 +49,12 @@ Route::post('/sub-locations', [LocationController::class, 'viewSubLocations']);
 Route::get('gender',[GenderController::class, 'index']);
 Route::post('gender',[GenderController::class, 'storeOrUpdate']);
 Route::delete('gender/{gender_id}',[GenderController::class, 'destroy']);
+
+Route::get('visa',[VisaController::class, 'index']);
+Route::post('visa',[VisaController::class, 'storeOrUpdate']);
+Route::delete('visa/{visa_id}',[VisaController::class, 'destroy']);
+
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/reset-password', [LoginController::class, 'resetPassword']);
