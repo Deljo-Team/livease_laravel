@@ -16,6 +16,7 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\VisaController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobTypeController;
 use App\Models\Service;
 
 /*
@@ -58,6 +59,10 @@ Route::delete('visa/{visa_id}',[VisaController::class, 'destroy']);
 Route::get('job',[JobController::class, 'index']);
 Route::post('job',[JobController::class, 'storeOrUpdate']);
 Route::delete('job/{job_id}',[JobController::class, 'destroy']);
+
+Route::get('job-type',[JobTypeController::class, 'index']);
+Route::post('job-type',[JobTypeController::class, 'storeOrUpdate']);
+Route::delete('job-type/{jobType_id}',[JobTypeController::class, 'destroy']);
 
 
 
