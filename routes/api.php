@@ -13,6 +13,7 @@ use App\Http\Controllers\ServicemenController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\GenderController;
 use App\Models\Service;
 
 /*
@@ -44,6 +45,10 @@ Route::post('/register', [RegisterController::class, 'index']);
 Route::post('/locations', [LocationController::class, 'index']);
 Route::post('/sub-locations', [LocationController::class, 'viewSubLocations']);
 
+Route::get('gender',[GenderController::class, 'index']);
+Route::post('gender',[GenderController::class, 'storeOrUpdate']);
+Route::delete('gender/{gender_id}',[GenderController::class, 'destroy']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/reset-password', [LoginController::class, 'resetPassword']);
     Route::get('/logout', [LoginController::class, 'logout'])->name('api.logout');
@@ -70,7 +75,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('nominee',[NomineeController::class, 'index']);
     Route::post('nominee',[NomineeController::class, 'storeOrUpdate']);
     Route::delete('nominee/{nominee_id}',[NomineeController::class, 'destroy']);
-
-
-
 });
