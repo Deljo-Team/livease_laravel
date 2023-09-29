@@ -28,6 +28,7 @@ class JobApplication extends Model
         'present_company',
         'present_salary',
         'expected_salary',
+        'experience',
         'status'
     ];
 

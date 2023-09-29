@@ -65,6 +65,7 @@ class JobApplicationController extends Controller
             $job_application->present_company = $request->present_company;
             $job_application->present_salary = $request->present_salary;
             $job_application->expected_salary = $request->expected_salary;
+            $job_application->experience = $request->experience;
             $job_application->status = $request->status;
 
             if ($request->hasFile('image')) {
