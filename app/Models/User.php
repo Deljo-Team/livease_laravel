@@ -30,6 +30,8 @@ class User extends Authenticatable
         'longitude',
         'avatar',
         'type',
+        'reward_amount', 
+        'reward_point',
         'remember_token',
 
 

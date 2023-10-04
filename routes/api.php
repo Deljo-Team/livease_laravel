@@ -13,10 +13,13 @@ use App\Http\Controllers\ServicemenController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\RewardTransactionsController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\VisaController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
+use App\Http\Controllers\RewardsController;
+use App\Http\Controllers\BankAccountController;
 use App\Models\Service;
 
 /*
@@ -64,6 +67,10 @@ Route::get('job-type',[JobTypeController::class, 'index']);
 Route::post('job-type',[JobTypeController::class, 'storeOrUpdate']);
 Route::delete('job-type/{jobType_id}',[JobTypeController::class, 'destroy']);
 
+Route::get('rewards',[RewardsController::class, 'index']);
+Route::post('rewards',[RewardsController::class, 'storeOrUpdate']);
+Route::delete('rewards/{reward_id}',[RewardsController::class, 'destroy']);
+
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -92,4 +99,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('nominee',[NomineeController::class, 'index']);
     Route::post('nominee',[NomineeController::class, 'storeOrUpdate']);
     Route::delete('nominee/{nominee_id}',[NomineeController::class, 'destroy']);
+
+    Route::get('rewards-transaction',[RewardTransactionsController::class, 'index']);
+    Route::get('rewards-transaction/list',[RewardTransactionsController::class, 'transactionList']);
+    Route::post('rewards-transaction',[RewardTransactionsController::class, 'store']);
+    Route::delete('rewards-transaction/{reward_id}',[RewardTransactionsController::class, 'destroy']);
+
+    Route::get('bank-account',[BankAccountController::class, 'index']);
+    Route::post('bank-account',[BankAccountController::class, 'storeOrUpdate']);
+    Route::delete('bank-account/{account_id}',[BankAccountController::class, 'destroy']);
 });
