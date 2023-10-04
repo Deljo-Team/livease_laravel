@@ -18,6 +18,7 @@ use App\Http\Controllers\GenderController;
 use App\Http\Controllers\VisaController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
+use App\Http\Controllers\RewardsController;
 use App\Models\Service;
 
 /*
@@ -64,6 +65,10 @@ Route::delete('job/{job_id}',[JobController::class, 'destroy']);
 Route::get('job-type',[JobTypeController::class, 'index']);
 Route::post('job-type',[JobTypeController::class, 'storeOrUpdate']);
 Route::delete('job-type/{jobType_id}',[JobTypeController::class, 'destroy']);
+
+Route::get('rewards',[RewardsController::class, 'index']);
+Route::post('rewards',[RewardsController::class, 'storeOrUpdate']);
+Route::delete('rewards/{reward_id}',[RewardsController::class, 'destroy']);
 
 
 

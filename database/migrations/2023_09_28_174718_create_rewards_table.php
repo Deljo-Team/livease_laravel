@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('rewards', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('rewards')->nullable();
             $table->double('value', 8, 2)->nullable();
             $table->enum('reward_type', ['percentage', 'point']);
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
