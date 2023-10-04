@@ -19,6 +19,7 @@ use App\Http\Controllers\VisaController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\RewardsController;
+use App\Http\Controllers\BankAccountController;
 use App\Models\Service;
 
 /*
@@ -104,4 +105,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('rewards-transaction',[RewardTransactionsController::class, 'store']);
     Route::delete('rewards-transaction/{reward_id}',[RewardTransactionsController::class, 'destroy']);
 
+    Route::get('bank-account',[BankAccountController::class, 'index']);
+    Route::post('bank-account',[BankAccountController::class, 'storeOrUpdate']);
+    Route::delete('bank-account/{account_id}',[BankAccountController::class, 'destroy']);
 });
