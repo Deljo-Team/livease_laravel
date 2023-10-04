@@ -13,6 +13,7 @@ use App\Http\Controllers\ServicemenController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\RewardTransactionsController;
 use App\Models\Service;
 
 /*
@@ -71,6 +72,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('nominee',[NomineeController::class, 'storeOrUpdate']);
     Route::delete('nominee/{nominee_id}',[NomineeController::class, 'destroy']);
 
-
+    Route::get('rewards-transaction',[RewardTransactionsController::class, 'index']);
+    Route::get('rewards-transaction/list',[RewardTransactionsController::class, 'transactionList']);
+    Route::post('rewards-transaction',[RewardTransactionsController::class, 'store']);
+    Route::delete('rewards-transaction/{reward_id}',[RewardTransactionsController::class, 'destroy']);
 
 });
