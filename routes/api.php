@@ -14,6 +14,10 @@ use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\RewardTransactionsController;
+use App\Http\Controllers\GenderController;
+use App\Http\Controllers\VisaController;
+use App\Http\Controllers\JobController;
+use App\Http\Controllers\JobTypeController;
 use App\Models\Service;
 
 /*
@@ -44,6 +48,24 @@ Route::post('/register', [RegisterController::class, 'index']);
 
 Route::post('/locations', [LocationController::class, 'index']);
 Route::post('/sub-locations', [LocationController::class, 'viewSubLocations']);
+
+Route::get('gender',[GenderController::class, 'index']);
+Route::post('gender',[GenderController::class, 'storeOrUpdate']);
+Route::delete('gender/{gender_id}',[GenderController::class, 'destroy']);
+
+Route::get('visa',[VisaController::class, 'index']);
+Route::post('visa',[VisaController::class, 'storeOrUpdate']);
+Route::delete('visa/{visa_id}',[VisaController::class, 'destroy']);
+
+Route::get('job',[JobController::class, 'index']);
+Route::post('job',[JobController::class, 'storeOrUpdate']);
+Route::delete('job/{job_id}',[JobController::class, 'destroy']);
+
+Route::get('job-type',[JobTypeController::class, 'index']);
+Route::post('job-type',[JobTypeController::class, 'storeOrUpdate']);
+Route::delete('job-type/{jobType_id}',[JobTypeController::class, 'destroy']);
+
+
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/reset-password', [LoginController::class, 'resetPassword']);

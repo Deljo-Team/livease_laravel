@@ -65,6 +65,7 @@ class JobApplicationController extends Controller
             $job_application->present_company = $request->present_company;
             $job_application->present_salary = $request->present_salary;
             $job_application->expected_salary = $request->expected_salary;
+            $job_application->experience = $request->experience;
             $job_application->status = $request->status;
 
             if ($request->hasFile('image')) {
@@ -130,6 +131,48 @@ class JobApplicationController extends Controller
             return response()->json([
                 'Success' => false,
                 'Message' => 'Failed to delete job application',
+                'Title'   => 'Error',
+                'Data'    => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function listJobApplications(Request $request){
+        try{
+        $vendor = auth('sanctum')->user();
+        $vendor_company = $vendor->vendor_company;
+        if(!$vendor_company){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'Vendor company not found',
+                'Title'   => 'Error',
+            ], 404);
+        }
+        $jobApplications = JobApplication::with('user');
+        $filters = [
+            'job_type' => ['db_column'=>'job_type_id','compare'=>'='],
+            'job_title'=> ['db_column'=>'desire_job_id','compare'=>'='],
+            'min_experience' => ['db_column'=>'experience','compare'=>'>='],
+            'min_salary' => ['db_column'=>'expected_salary','compare'=>'>='],
+            'max_salary' => ['db_column'=>'expected_salary','compare'=>'<='],
+        ];
+        foreach ($filters as $key => $row) {
+            if($request->has($key) && $request->$key != null){
+                $jobApplications->orWhere($row['db_column'],$row['compare'],$request->$key);
+            }
+        }
+        $jobApplications = $jobApplications->get();
+
+        return response()->json([
+            'Success' => true,
+            'Message' => 'Job applications fetched successfully',
+            'Title'   => 'Success',
+            'Data'    => ['applications' => $jobApplications],
+        ], 200);
+        }catch(\Exception $e){
+            return response()->json([
+                'Success' => false,
+                'Message' => 'Failed to fetch job applications',
                 'Title'   => 'Error',
                 'Data'    => $e->getMessage(),
             ], 500);
