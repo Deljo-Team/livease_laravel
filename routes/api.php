@@ -21,7 +21,6 @@ use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\RewardsController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\RemindersController;
-use App\Models\Reminders;
 use App\Models\Service;
 
 /*
