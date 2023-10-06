@@ -20,6 +20,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\RewardsController;
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\RemindersController;
 use App\Models\Service;
 
 /*
@@ -108,4 +109,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('bank-account',[BankAccountController::class, 'index']);
     Route::post('bank-account',[BankAccountController::class, 'storeOrUpdate']);
     Route::delete('bank-account/{account_id}',[BankAccountController::class, 'destroy']);
+
+    Route::get('reminder',[RemindersController::class, 'reminderInfo']);
+    Route::get('reminder/list',[RemindersController::class, 'reminderList']);
+    Route::get('reminder/{reminder_id}',[RemindersController::class, 'index']);
+    Route::post('reminder',[RemindersController::class, 'storeOrUpdate']);
+    Route::delete('reminder/{reminder_id}',[RemindersController::class, 'destroy']);
 });
