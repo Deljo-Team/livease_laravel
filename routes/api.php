@@ -21,6 +21,8 @@ use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\RewardsController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\RemindersController;
+use App\Http\Controllers\SubCategoryQuestionController;
+use App\Http\Controllers\ServiceAnswerController;
 use App\Models\Service;
 
 /*
@@ -115,4 +117,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('reminder/{reminder_id}',[RemindersController::class, 'index']);
     Route::post('reminder',[RemindersController::class, 'storeOrUpdate']);
     Route::delete('reminder/{reminder_id}',[RemindersController::class, 'destroy']);
+
+    Route::post('questians',[SubCategoryQuestionController::class, 'fectchQuestians']);
+    Route::post('answers',[ServiceAnswerController::class, 'storeAnswers']);
+
 });
