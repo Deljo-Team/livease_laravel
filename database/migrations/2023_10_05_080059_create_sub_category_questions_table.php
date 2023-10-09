@@ -17,6 +17,7 @@ return new class extends Migration
             $table->enum('type', ['select', 'text', 'date', 'time', 'file', 'boolean']);
             $table->string('question');
             $table->string('answer')->nullable();
+            $table->string('priority')->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

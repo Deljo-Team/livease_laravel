@@ -38,7 +38,7 @@ Route::post('/send-otp',[OtpController::class, 'sendOtp']);
 Route::post('/verify-otp',[OtpController::class, 'verifyOtp']);
 Route::get('/countries', [CountriesController::class, 'index']);
 Route::get('/categories', [CategoryController::class, 'index']);
-Route::post('/sub-category', [SubCategoryController::class, 'index']);
+Route::post('/sub-category', [SubCategoryController::class, 'index'])->name('general.sub-category');
 Route::post('/register/vendor/category', [RegisterController::class, 'vendorCategory']);
 Route::post('/register/vendor/details', [RegisterController::class, 'vendorCompanyDetails']);
 Route::post('/register/vendor/address', [RegisterController::class, 'vendorCompanyAddress']);
