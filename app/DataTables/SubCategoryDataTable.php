@@ -96,7 +96,7 @@ class SubCategoryDataTable extends DataTable
                 ->orderable(false)
                 ->searchable(false),
             Column::make('name'),
-            Column::make('category.name')->title('Category'),
+            Column::make('category.name')->title('Category')->orderable(false)->searchable(true),
             Column::make('slug'),
             Column::computed('action')
                   ->exportable(false)

@@ -22,7 +22,7 @@ class SubCategoryQuestionController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::all();
+        $categories = Category::whereHas('sub_categories')->get();
         $sub_categories = [];
         $selected_category = null;
         $selected_sub_category = null;
