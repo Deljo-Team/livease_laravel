@@ -29,9 +29,10 @@ class SubCategoryDataTable extends DataTable
                 $updateButton = "<a class='btn btn-sm btn-info' data-id='".$row->id."' href='".route('sub-category.edit',$row->id)."' ><span class='material-symbols-outlined'>edit</span></a>";
 
                 // Delete Button
-                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='".route('sub-category.destroy',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined'>delete_forever</span></button>";
+                $deleteButton = "<button class='btn btn-sm btn-danger delete-button' data-url='".route('sub-category.destroy',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined '>delete_forever</span></button>";
+                $viewButton = "<a class='btn btn-sm btn-primary' href='".route('questions.index',$row->id)."' data-id='".$row->id."'><span class='material-symbols-outlined'>question_exchange</span></a>";
 
-                return $updateButton." ".$deleteButton;
+                return $updateButton." ".$deleteButton ." ".$viewButton;
 
            })->addColumn('row_number', function ($row) {
                 static $row_number = 0;
@@ -100,7 +101,7 @@ class SubCategoryDataTable extends DataTable
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(120)
+                  ->width(220)
                 //   ->render('\'<button class="btn btn-sm btn-primary">Edit</button>   <button class="btn btn-sm btn-danger">Delete</button>\'')
                   ->addClass('text-center'),
             // Column::make('created_at'),

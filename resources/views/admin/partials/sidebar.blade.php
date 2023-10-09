@@ -26,6 +26,7 @@
                         <li><a href="{{ route('sub-locations.index') }}" class="rounded">Sub Locations</a></li>
                         <li><a href="{{ route('category.index') }}" class="rounded">Categories</a></li>
                         <li><a href="{{ route('sub-category.index') }}" class="rounded">Sub Categories</a></li>
+                        <li><a href="{{ route('questions.base') }}" class="rounded">Questions</a></li>
                         {{-- <li><a href="#" class="rounded">Reports</a></li> --}}
                     </ul>
                 </div>
