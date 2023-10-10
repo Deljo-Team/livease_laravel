@@ -11,6 +11,7 @@ class ServiceAnswer extends Model
     protected $fillable = [
         'service_id',
         'questions_id',
-        'answer'
+        'answer',
+        'answer_type'
     ];
 }
