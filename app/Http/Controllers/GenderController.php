@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoregenderRequest;
 use App\Http\Requests\UpdategenderRequest;
-use App\Models\gender;
+use App\Models\Gender;
 
 class GenderController extends Controller
 {
     public function index()
     {
         try {    
-            $gender = gender::all();
+            $gender = Gender::all();
     
             return response()->json([
                 'Success' => true,
@@ -34,9 +34,9 @@ class GenderController extends Controller
         try {
             
             if (!$request->id) {
-                $gender = new gender();
+                $gender = new Gender();
             } else {
-                $gender = gender::where('id', $request->id)->first();
+                $gender = Gender::where('id', $request->id)->first();
             }
             $gender->gender = $request->gender;
             $gender->status = $request->status;
@@ -62,7 +62,7 @@ class GenderController extends Controller
     public function destroy($gender_id)
     {
         try {
-            $gender = gender::where('id', $gender_id)->first();
+            $gender = Gender::where('id', $gender_id)->first();
             if($gender) {
                 $gender->delete();
         
