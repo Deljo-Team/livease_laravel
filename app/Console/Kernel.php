@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('sanctum:prune-expired --hours=24')->daily();
+        $schedule->command('model:prune')->daily()->appendOutputTo(storage_path('logs/prune.log'));;
+
     }
 
     /**
