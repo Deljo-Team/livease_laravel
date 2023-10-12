@@ -118,7 +118,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('reminder',[RemindersController::class, 'storeOrUpdate']);
     Route::delete('reminder/{reminder_id}',[RemindersController::class, 'destroy']);
 
-    Route::post('questians',[SubCategoryQuestionController::class, 'fectchQuestians']);
+    Route::post('questions',[SubCategoryQuestionController::class, 'fectchQuestions']);
     Route::post('answers',[ServiceAnswerController::class, 'storeAnswers']);
 
 });

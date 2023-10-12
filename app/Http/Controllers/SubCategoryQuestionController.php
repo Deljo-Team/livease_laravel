@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SubCategoryQuestionController extends Controller
 {
-    public function fectchQuestians(Request $request)
+    public function fectchQuestions(Request $request)
     {
         try {
             $user = auth('sanctum')->user();
