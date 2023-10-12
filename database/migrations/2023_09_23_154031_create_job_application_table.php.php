@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('linked_in_link')->nullable();
             $table->date('visa_validity')->nullable();
             $table->string('gender')->nullable();
+            $table->enum('gender', ['male', 'female']);
             $table->foreignId('job_type_id')->constrained('job_type')->onDelete('cascade');
             $table->enum('experience_level', ['experienced', 'fresher']);  
             $table->foreignId('current_job_id')->constrained('job')->onDelete('cascade');
