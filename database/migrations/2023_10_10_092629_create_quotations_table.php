@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('quotations', function (Blueprint $table) {
             $table->id();
             $table->string('quotation_number'); 
-            $table->foreignId('service_id')->constrained('services')->cascadeOnDelete();
+            $table->foreignId('service_id')->constrained('services');
+            $table->foreignId('vendor_company_id')->constrained('vendor_companies');
             $table->string('service_name');
             $table->string('service_reference_number')->nullable();
             $table->string('service_description')->nullable();

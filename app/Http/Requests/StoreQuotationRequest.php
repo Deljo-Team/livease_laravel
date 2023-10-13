@@ -29,6 +29,7 @@ class StoreQuotationRequest extends ApiRequest
             'quotation_amount' => 'required|string',
             'site_inspection' => 'boolean',
             'status' => 'string',
+            'signature' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }
