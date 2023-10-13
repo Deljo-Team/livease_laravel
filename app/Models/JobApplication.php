@@ -36,5 +36,10 @@ class JobApplication extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function gender()
+    {
+        return $this->hasOne(Gender::class);
+    }
 }
 
