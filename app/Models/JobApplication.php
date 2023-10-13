@@ -15,7 +15,7 @@ class JobApplication extends Model
         'email',
         'linked_in_link',
         'visa_validity',
-        'gender_id',
+        'gender',
         'job_type_id',
         'experience_level',
         'current_job_id',
