@@ -34,6 +34,10 @@ class GeneralServices
     
         return $slug;
     }
-    
 
+    public function generateUniqueOrderId($serviceId, $userId){
+        $date = date('Ymd');
+        $orderId = $date.$userId.$serviceId;
+        return $orderId; 
+    }
 }

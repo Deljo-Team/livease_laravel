@@ -23,6 +23,8 @@ use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\RemindersController;
 use App\Http\Controllers\AssetTypeController;
 use App\Http\Controllers\AssetController;
+use App\Http\Controllers\SubCategoryQuestionController;
+use App\Http\Controllers\ServiceAnswerController;
 use App\Models\Service;
 
 /*
@@ -35,24 +37,23 @@ use App\Models\Service;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-// require __DIR__ . '/api/vendor.php';
+require __DIR__ . '/api/vendor.php';
 // require __DIR__ . '/api/servicemen.php';
-// require __DIR__ . '/api/general.php';
+require __DIR__ . '/api/general.php';
 
-Route::post('/login', [LoginController::class, 'index']);
-Route::post('/send-otp',[OtpController::class, 'sendOtp']);
-Route::post('/verify-otp',[OtpController::class, 'verifyOtp']);
-Route::get('/countries', [CountriesController::class, 'index']);
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::post('/sub-category', [SubCategoryController::class, 'index'])->name('general.sub-category');
-Route::post('/register/vendor/category', [RegisterController::class, 'vendorCategory']);
-Route::post('/register/vendor/details', [RegisterController::class, 'vendorCompanyDetails']);
-Route::post('/register/vendor/address', [RegisterController::class, 'vendorCompanyAddress']);
-Route::post('/register/vendor/logo', [RegisterController::class, 'vendorCompanyLogo']);
-Route::post('/register', [RegisterController::class, 'index']);
+// Route::post('/login', [LoginController::class, 'index']);
+// Route::post('/send-otp',[OtpController::class, 'sendOtp']);
+// Route::post('/verify-otp',[OtpController::class, 'verifyOtp']);
+// Route::get('/countries', [CountriesController::class, 'index']);
+// Route::get('/categories', [CategoryController::class, 'index']);
+// Route::post('/sub-category', [SubCategoryController::class, 'index'])->name('general.sub-category');
+// Route::post('/register/vendor/category', [RegisterController::class, 'vendorCategory']);
+// Route::post('/register/vendor/details', [RegisterController::class, 'vendorCompanyDetails']);
+// Route::post('/register/vendor/address', [RegisterController::class, 'vendorCompanyAddress']);
+// Route::post('/register/vendor/logo', [RegisterController::class, 'vendorCompanyLogo']);
+// Route::post('/register', [RegisterController::class, 'index']);
 
-Route::post('/locations', [LocationController::class, 'index']);
-Route::post('/sub-locations', [LocationController::class, 'viewSubLocations']);
+
 
 Route::get('gender',[GenderController::class, 'index']);
 Route::post('gender',[GenderController::class, 'storeOrUpdate']);
@@ -122,5 +123,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('assets',[AssetController::class, 'storeOrUpdate']);
     Route::delete('assets/{assets_id}',[AssetController::class, 'destroy']);
 
+    Route::post('questions',[SubCategoryQuestionController::class, 'fectchQuestions']);
+    Route::post('answers',[ServiceAnswerController::class, 'storeAnswers']);
 
 });
