@@ -21,6 +21,8 @@ use App\Http\Controllers\JobTypeController;
 use App\Http\Controllers\RewardsController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\RemindersController;
+use App\Http\Controllers\AssetTypeController;
+use App\Http\Controllers\AssetController;
 use App\Models\Service;
 
 /*
@@ -72,8 +74,6 @@ Route::get('rewards',[RewardsController::class, 'index']);
 Route::post('rewards',[RewardsController::class, 'storeOrUpdate']);
 Route::delete('rewards/{reward_id}',[RewardsController::class, 'destroy']);
 
-
-
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/reset-password', [LoginController::class, 'resetPassword']);
     Route::get('/logout', [LoginController::class, 'logout'])->name('api.logout');
@@ -115,4 +115,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('reminder/{reminder_id}',[RemindersController::class, 'index']);
     Route::post('reminder',[RemindersController::class, 'storeOrUpdate']);
     Route::delete('reminder/{reminder_id}',[RemindersController::class, 'destroy']);
+
+    Route::get('asset_type',[AssetTypeController::class, 'index']);
+
+    Route::get('assets',[AssetController::class, 'assetsDashboard']);
+    Route::post('assets',[AssetController::class, 'storeOrUpdate']);
+    Route::delete('assets/{assets_id}',[AssetController::class, 'destroy']);
+
+
 });
