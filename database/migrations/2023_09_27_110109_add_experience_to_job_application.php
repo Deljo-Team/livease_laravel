@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('job_applications', function (Blueprint $table) {
-            $table->dropColumn('presant_salary');
+            $table->dropColumn('presnt_salary');
             $table->double('present_salary', 8, 2)->nullable()->default(0)->after('expected_salary');
             $table->integer('experience')->nullable()->default(0)->after('present_salary');
         });
