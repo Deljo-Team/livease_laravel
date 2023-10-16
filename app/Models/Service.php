@@ -15,9 +15,9 @@ class Service extends Model
             $id = $service->id;
             $service = Service::find($id);
             $generalServices = new GeneralServices();
-            $oredrId = $generalServices->generateUniqueOrderId($id, $service->user_id);
+            $orderId = $generalServices->generateUniqueOrderId($id, $service->user_id);
             $service->update([
-                'order_id' => $oredrId
+                'order_id' => $orderId
             ]);
         });
     }
