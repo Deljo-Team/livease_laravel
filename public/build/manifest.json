@@ -1,0 +1,45 @@
+{
+  "_axios-4a70c6fc.js": {
+    "file": "assets/axios-4a70c6fc.js"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff": {
+    "file": "assets/bootstrap-icons-999550fa.woff",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff"
+  },
+  "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2": {
+    "file": "assets/bootstrap-icons-cfe45b98.woff2",
+    "src": "node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2"
+  },
+  "resources/js/admin/questions.js": {
+    "file": "assets/questions-8460a3df.js",
+    "imports": [
+      "_axios-4a70c6fc.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/admin/questions.js"
+  },
+  "resources/js/admin/sidebar.js": {
+    "file": "assets/sidebar-011c7f48.js",
+    "isEntry": true,
+    "src": "resources/js/admin/sidebar.js"
+  },
+  "resources/js/admin/vendor-approval.js": {
+    "file": "assets/vendor-approval-5ee175c2.js",
+    "isEntry": true,
+    "src": "resources/js/admin/vendor-approval.js"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-7f65c44e.js",
+    "imports": [
+      "_axios-4a70c6fc.js",
+      "resources/js/admin/sidebar.js"
+    ],
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/sass/app.scss": {
+    "file": "assets/app-915927e1.css",
+    "isEntry": true,
+    "src": "resources/sass/app.scss"
+  }
+}

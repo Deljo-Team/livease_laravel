@@ -55,7 +55,7 @@ class JobApplicationController extends Controller
             $job_application->email = $request->email;
             $job_application->linked_in_link = $request->linked_in_link;
             $job_application->visa_validity = $request->visa_validity;
-            $job_application->gender_id = $request->gender_id;
+            $job_application->gender = $request->gender;
             $job_application->job_type_id = $request->job_type_id;
             $job_application->experience_level = $request->experience_level;
             $job_application->current_job_id = $request->current_job_id;
@@ -89,14 +89,14 @@ class JobApplicationController extends Controller
             $cvUrl = $job_application->cv ? config('app.url') . $storage->getFileUrl($job_application->cv) : null;
             $proofUrl = $job_application->proof ? config('app.url') . $storage->getFileUrl($job_application->proof) : null;
 
+            $job_application->imageUrl = $imageUrl;
+            $job_application->cvUrl = $cvUrl;
+            $job_application->proofUrl = $proofUrl;
             return response()->json([
                 'Success' => true,
                 'Message' => 'Job profile ' . ($job_application->wasRecentlyCreated ? 'created' : 'updated') . ' successfully',
                 'Title'   => 'Success',
                 'Data' => $job_application,
-                'Image' => $imageUrl,
-                'CV' => $cvUrl,
-                'Proof' => $proofUrl,
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

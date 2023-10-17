@@ -20,6 +20,7 @@
             'baseUrl' => url('/'),
             'csrfToken' => csrf_token(),
         ]) !!};
+
     </script>
     <!-- Scripts -->
     @vite([
@@ -36,6 +37,7 @@
         <main class="main-content py-4">
             @yield('content')
         </main>
+        @include('admin.partials.modal')
     </div>
     @stack('scripts')
     {{-- @vite('resources/js/admin.js') --}}

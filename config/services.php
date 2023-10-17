@@ -44,6 +44,9 @@ return [
         'interface'=>env('FILE_INTERFACE','file'), //file or s3
         'path'=>env('FILE_PATH','public'),
         'disk'=>env('FILE_DISK','local'),
+    ],
+    'reward'=>[
+        'rewardPointWorth'=>env('REWARD_POINT_WORTH',10),
     ]
 
 ];

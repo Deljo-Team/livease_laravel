@@ -13,10 +13,20 @@ use App\Http\Controllers\ServicemenController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\RewardTransactionsController;
 use App\Http\Controllers\GenderController;
 use App\Http\Controllers\VisaController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\JobTypeController;
+use App\Http\Controllers\RewardsController;
+use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\RemindersController;
+use App\Http\Controllers\AssetTypeController;
+use App\Http\Controllers\AssetController;
+use App\Http\Controllers\SubCategoryQuestionController;
+use App\Http\Controllers\ServiceAnswerController;
+use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\QuotationController;
 use App\Models\Service;
 
 /*
@@ -29,24 +39,23 @@ use App\Models\Service;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-// require __DIR__ . '/api/vendor.php';
+require __DIR__ . '/api/vendor.php';
 // require __DIR__ . '/api/servicemen.php';
-// require __DIR__ . '/api/general.php';
+require __DIR__ . '/api/general.php';
 
-Route::post('/login', [LoginController::class, 'index']);
-Route::post('/send-otp',[OtpController::class, 'sendOtp']);
-Route::post('/verify-otp',[OtpController::class, 'verifyOtp']);
-Route::get('/countries', [CountriesController::class, 'index']);
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::post('/sub-category', [SubCategoryController::class, 'index']);
-Route::post('/register/vendor/category', [RegisterController::class, 'vendorCategory']);
-Route::post('/register/vendor/details', [RegisterController::class, 'vendorCompanyDetails']);
-Route::post('/register/vendor/address', [RegisterController::class, 'vendorCompanyAddress']);
-Route::post('/register/vendor/logo', [RegisterController::class, 'vendorCompanyLogo']);
-Route::post('/register', [RegisterController::class, 'index']);
+// Route::post('/login', [LoginController::class, 'index']);
+// Route::post('/send-otp',[OtpController::class, 'sendOtp']);
+// Route::post('/verify-otp',[OtpController::class, 'verifyOtp']);
+// Route::get('/countries', [CountriesController::class, 'index']);
+// Route::get('/categories', [CategoryController::class, 'index']);
+// Route::post('/sub-category', [SubCategoryController::class, 'index'])->name('general.sub-category');
+// Route::post('/register/vendor/category', [RegisterController::class, 'vendorCategory']);
+// Route::post('/register/vendor/details', [RegisterController::class, 'vendorCompanyDetails']);
+// Route::post('/register/vendor/address', [RegisterController::class, 'vendorCompanyAddress']);
+// Route::post('/register/vendor/logo', [RegisterController::class, 'vendorCompanyLogo']);
+// Route::post('/register', [RegisterController::class, 'index']);
 
-Route::post('/locations', [LocationController::class, 'index']);
-Route::post('/sub-locations', [LocationController::class, 'viewSubLocations']);
+
 
 Route::get('gender',[GenderController::class, 'index']);
 Route::post('gender',[GenderController::class, 'storeOrUpdate']);
@@ -64,7 +73,9 @@ Route::get('job-type',[JobTypeController::class, 'index']);
 Route::post('job-type',[JobTypeController::class, 'storeOrUpdate']);
 Route::delete('job-type/{jobType_id}',[JobTypeController::class, 'destroy']);
 
-
+Route::get('rewards',[RewardsController::class, 'index']);
+Route::post('rewards',[RewardsController::class, 'storeOrUpdate']);
+Route::delete('rewards/{reward_id}',[RewardsController::class, 'destroy']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/reset-password', [LoginController::class, 'resetPassword']);
@@ -92,4 +103,38 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('nominee',[NomineeController::class, 'index']);
     Route::post('nominee',[NomineeController::class, 'storeOrUpdate']);
     Route::delete('nominee/{nominee_id}',[NomineeController::class, 'destroy']);
+
+    Route::get('rewards-transaction',[RewardTransactionsController::class, 'index']);
+    Route::get('rewards-transaction/list',[RewardTransactionsController::class, 'transactionList']);
+    Route::post('rewards-transaction',[RewardTransactionsController::class, 'store']);
+    Route::delete('rewards-transaction/{reward_id}',[RewardTransactionsController::class, 'destroy']);
+
+    Route::get('bank-account',[BankAccountController::class, 'index']);
+    Route::post('bank-account',[BankAccountController::class, 'storeOrUpdate']);
+    Route::delete('bank-account/{account_id}',[BankAccountController::class, 'destroy']);
+
+    Route::get('reminder',[RemindersController::class, 'reminderInfo']);
+    Route::get('reminder/list',[RemindersController::class, 'reminderList']);
+    Route::get('reminder/{reminder_id}',[RemindersController::class, 'index']);
+    Route::post('reminder',[RemindersController::class, 'storeOrUpdate']);
+    Route::delete('reminder/{reminder_id}',[RemindersController::class, 'destroy']);
+
+    Route::get('asset_type',[AssetTypeController::class, 'index']);
+
+    Route::get('assets',[AssetController::class, 'assetsDashboard']);
+    Route::post('assets',[AssetController::class, 'storeOrUpdate']);
+    Route::delete('assets/{assets_id}',[AssetController::class, 'destroy']);
+
+    Route::post('questions',[SubCategoryQuestionController::class, 'fectchQuestions']);
+    Route::post('answers',[ServiceAnswerController::class, 'storeAnswers']);
+    
+    Route::get('services',[ServicesController::class, 'index']);
+    Route::get('services/details/{service_id}',[ServicesController::class, 'getServiceDetails']);
+    
+    Route::get('quotation/{service_id}',[QuotationController::class, 'getQuotationListForUser']);
+    Route::get('quotation/details/{quotation_id}',[QuotationController::class, 'getQuotationDetailsForUser']);
+    Route::post('quotation/approve',[QuotationController::class, 'approveQuotation']);
+
+    
+
 });

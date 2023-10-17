@@ -15,6 +15,15 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(UserSeeder::class);
         $this->call(CountrySeeder::class);
+        $this->call(genderSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(SubCategorySeeder::class);
+        // $this->call(LocationSeeder::class);
+        // $this->call(SubLocationSeeder::class);
+        $this->call(jobSeeder::class);
+        $this->call(jobTypeSeeder::class);
+        $this->call(visaSeeder::class);
+
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
