@@ -25,6 +25,8 @@ use App\Http\Controllers\AssetTypeController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\SubCategoryQuestionController;
 use App\Http\Controllers\ServiceAnswerController;
+use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\QuotationController;
 use App\Models\Service;
 
 /*
@@ -125,5 +127,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('questions',[SubCategoryQuestionController::class, 'fectchQuestions']);
     Route::post('answers',[ServiceAnswerController::class, 'storeAnswers']);
+    
+    Route::get('services',[ServicesController::class, 'index']);
+    Route::get('services/details/{service_id}',[ServicesController::class, 'getServiceDetails']);
+    
+    Route::get('quotation/{service_id}',[QuotationController::class, 'getQuotationListForUser']);
+    Route::get('quotation/details/{quotation_id}',[QuotationController::class, 'getQuotationDetailsForUser']);
+    Route::post('quotation/approve',[QuotationController::class, 'approveQuotation']);
+
+    
 
 });

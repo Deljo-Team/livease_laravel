@@ -10,12 +10,13 @@ use Illuminate\Http\Request;
 
 class QuotationController extends Controller
 {
-    protected $storage_path, $vendor_company_id;
+    protected $storage_path, $vendor_company_id, $user_id;
     public function __construct()
     {
         $this->storage_path = 'quotation/signature/';
         $user = auth('sanctum')->user();
         $this->vendor_company_id = $user->vendor_company->id;
+        $this->user_id = $user->id;
 
     }
     /**
@@ -34,12 +35,89 @@ class QuotationController extends Controller
         ], 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function getQuotationListForUser($serviceId)
     {
-        //
+        try {
+            $quotations = Quotation::where('service_id', $serviceId)
+            ->where('status', '!=', 'rejected')
+            ->orderBy('created_at', 'desc') 
+            ->get();
+    
+            return response()->json([
+                'Success' => true,
+                'Message' => 'Quotations fetched successfully',
+                'Title'   => 'Success',
+                'Data'    => $quotations,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => false,
+                'Message' => 'Failed to fetch quotations',
+                'Title'   => 'Error',
+                'Data'    => $e->getMessage(),
+            ], 500);
+        }        
+    }
+
+    public function getQuotationDetailsForUser($quotationId)
+    {
+        try {
+            $quotation = Quotation::where('id', $quotationId)
+            ->get();
+    
+            return response()->json([
+                'Success' => true,
+                'Message' => 'Quotation fetched successfully',
+                'Title'   => 'Success',
+                'Data'    => $quotation,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => false,
+                'Message' => 'Failed to fetch quotation',
+                'Title'   => 'Error',
+                'Data'    => $e->getMessage(),
+            ], 500);
+        }        
+    }
+
+    public function approveQuotation(Request $request)
+    {
+        try {
+            $quotationId = $request->quotationId;
+            $quotation = Quotation::where('id', $quotationId)
+            ->first();
+
+            if ($quotation) {
+                $quotation->status = 'approved';
+                $quotation->save();
+            }
+            
+            $quotations = Quotation::where('service_id', $quotation->service_id)
+            ->where('id', '!=', $quotationId)
+            ->get();
+
+            if ($quotations) {
+                foreach($quotations as $quot) {
+                    $quot->status = 'rejected';
+                    $quot->save();
+                }
+            }
+
+            return response()->json([
+                'Success' => true,
+                'Message' => 'Quotation approved successfully',
+                'Title'   => 'Success',
+                'Data'    => $quotation,
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'Success' => false,
+                'Message' => 'Failed to approve quotation',
+                'Title'   => 'Error',
+                'Data'    => $e->getMessage(),
+            ], 500);
+        }        
     }
 
     /**

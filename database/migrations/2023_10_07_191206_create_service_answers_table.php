@@ -13,7 +13,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
             $table->foreignId('questions_id')->constrained('sub_category_questions')->onDelete('cascade');
-            $table->string('answer_type')->nullable();
             $table->enum('answer_type', ['file', 'multiselect', 'text']);
             $table->string('answer')->nullable();
             $table->timestamps();
